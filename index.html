@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synthesis of GSI Literature</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .legend-color {
+            width: 25px;
+            height: 3px;
+            border-radius: 2px;
+        }
+        
+        #chart {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        .instructions {
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+            margin-top: 20px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">Synthesis of GSI Literature</div>
+        <div class="subtitle">Interactive Network Visualization of Research Papers, Practices, and Results</div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: #f00;"></div>
+                <span>Outgoing connections</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #00f;"></div>
+                <span>Incoming connections</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #ccc;"></div>
+                <span>Default state</span>
+            </div>
+        </div>
+        
+        <div id="chart"></div>
+        
+        <div class="instructions">
+            Hover over any node to explore its connections within the GSI literature network
+        </div>
+    </div>
+
+    <script>
+        // GSI Literature Dataset
+        const flareData = [
+            {"name":"flare_Paper_Ali et al. (2020)","size":3938,"imports":["flare_DataCollectionType_Empirical","flare_Location_Pakistan","flare_Results_WaterSavings","flare_GSIPractice_RWH"]},
+            {"name":"flare_Paper_Alhumaid et al. (2018)","size":3938,"imports":["flare_DataCollectionType_Modeled","flare_Location_MiddleEast","flare_Results_Storage","flare_GSIPractice_Microtunneling"]},
+            {"name":"flare_Paper_Bhaskar et al. (2020)","size":3938,"imports":["flare_DataCollectionType_Empirical","flare_Location_Arizona","flare_Results_PeakFlow","flare_Results_Urbanization","flare_GSIPractice_None"]},
+            {"name":"flare_Paper_BigurraAlzati et al. (2021)","size":3938,"imports":["flare_DataCollectionType_Modeled","flare_Location_Mexico","flare_Results_Runoff","flare_GSIPractice_Bioretention","flare_GSIPractice_InfiltrationTrenches","flare_GSIPractice_RWH"]},
+            {"name":"flare_Paper_Feng et al. (2016)","size":3938,"imports":["flare_DataCollectionType_Modeled","flare_Location_Utah","flare_Results_Runoff","flare_GSIPractice_GreenRoofs","flare_GSIPractice_Bioretention"]},
+            {"name":"flare_Paper_Gallo et al. (2013)","size":3938,"imports":["flare_DataCollectionType_Empirical","flare_Location_Arizona","flare_Results_Runoff","flare_Results_Urbanization","flare_GSIPractice_None"]},
+            {"name":"flare_Paper_Gooden et al. (2021)","size":3938,"imports":["flare_DataCollectionType_Both","flare_Location_Arizona","flare_Results_PeakFlow","flare_Results_Infiltration","flare_GSIPractice_RockDetentionStructures"]},
+            {"name":"flare_Paper_Jovanovic et al. (2019)","size":3938,"imports":["flare_DataCollectionType_Modeled","flare_Location_Arizona","flare_Results_Urbanization","flare_GSIPractice_None"]},
+            {"name":"flare_Paper_Kennedy et al. (2013)","size":3938,"imports":["flare_DataCollectionType_Modeled","flare_Location_Arizona","flare_Results_Urbanization","flare_Results_Runoff","flare_GSIPractice_None"]},
+            {"name":"flare_Paper_Korgaonkar et al. (2021)","size":3938,"imports":["flare_DataCollectionType_Modeled","flare_Location_Arizona","flare_Results_PeakFlow","flare_GSIPractice_RWH","flare_GSIPractice_CurbCuts","flare_GSIPractice_RetentionBasin","flare_GSIPractice_CurbCuts"]},
+            {"name":"flare_Paper_Low et al. (2015)","size":3938,"imports":["flare_DataCollectionType_Empirical","flare_Location_Australia","flare_Results_WaterSavings","flare_GSIPractice_Bioretention"]},
+            {"name":"flare_Paper_McPhillips et al. (2019)","size":3938,"imports":["flare_DataCollectionType_Empirical","flare_Location_Arizona","flare_Results_Urbanization","flare_Results_Storage","flare_GSIPractice_RetentionBasin"]},
+            {"name":"flare_Paper_Porse et al. (2019)","size":3938,"imports":["flare_DataCollectionType_Modeled","flare_Location_California","flare_Results_DownstreamFlow","flare_GSIPractice_None"]},
+            {"name":"flare_Paper_Pumo et al. (2023)","size":3938,"imports":["flare_DataCollectionType_Empirical","flare_Location_Italy","flare_Results_Storage","flare_GSIPractice_GreenRoofs-Multilayer"]},
+            {"name":"flare_Paper_Read et al. (2019)","size":3938,"imports":["flare_DataCollectionType_Modeled","flare_Location_California","flare_Results_PeakFlow","flare_GSIPractice_PermeablePavement","flare_GSIPractice_Bioretention","flare_GSIPractice_InfiltrationTrenches","flare_GSIPractice_Swales","flare_GSIPractice_DryPonds"]},
+            {"name":"flare_Paper_Steffen et al. (2013)","size":3938,"imports":["flare_DataCollectionType_Modeled","flare_Location_Across U.S.","flare_Results_Runoff","flare_GSIPractice_RWH"]},
+            {"name":"flare_Paper_York et al. (2013)","size":3938,"imports":["flare_DataCollectionType_Modeled","flare_Location_Utah","flare_Results_WaterBudget","flare_GSIPractice_RWH","flare_GSIPractice_Bioretention"]},
+            {"name":"flare_Paper_Sierra Vista Stormwater Action Plan  (2016)","size":3938,"imports":["flare_DataCollectionType_Modeled","flare_Location_Arizona","flare_Results_PeakFlow","flare_GSIPractice_Unknown"]},
+            {"name":"flare_Paper_Sierra Vista Stormwater Action Plan (2015)","size":3938,"imports":["flare_DataCollectionType_Modeled","flare_Location_Arizona","flare_Results_DownstreamFlow","flare_GSIPractice_RWH","flare_GSIPractice_RainGarden"]},
+            {"name":"flare_Paper_Korgaonkar et al. (2018)","size":3938,"imports":["flare_DataCollectionType_Empirical","flare_Location_Arizona","flare_Results_Runoff","flare_GSIPractice_RetentionBasin","flare_GSIPractice_PermeablePavement","flare_GSIPractice_RWH"]},
+            {"name":"flare_DataCollectionType_Both","size":3938,"imports":[]},
+            {"name":"flare_DataCollectionType_Modeled","size":3938,"imports":[]},
+            {"name":"flare_DataCollectionType_Empirical","size":3938,"imports":[]},
+            {"name":"flare_Location_Australia","size":3938,"imports":[]},
+            {"name":"flare_Location_Arizona","size":3938,"imports":[]},
+            {"name":"flare_Location_California","size":3938,"imports":[]},
+            {"name":"flare_Location_Italy","size":3938,"imports":[]},
+            {"name":"flare_Location_MiddleEast","size":3938,"imports":[]},
+            {"name":"flare_Location_Mexico","size":3938,"imports":[]},
+            {"name":"flare_Location_Utah","size":3938,"imports":[]},
+            {"name":"flare_Location_Across U.S.","size":3938,"imports":[]},
+            {"name":"flare_Location_Pakistan","size":3938,"imports":[]},
+            {"name":"flare_GSIPractice_Bioretention","size":3938,"imports":[]},
+            {"name":"flare_GSIPractice_CurbCuts","size":3938,"imports":[]},
+            {"name":"flare_GSIPractice_DryPonds","size":3938,"imports":[]},
+            {"name":"flare_GSIPractice_TrafficChicanes","size":3938,"imports":[]},
+            {"name":"flare_GSIPractice_RetentionBasin","size":3938,"imports":[]},
+            {"name":"flare_GSIPractice_PermeablePavement","size":3938,"imports":[]},
+            {"name":"flare_GSIPractice_InfiltrationTrenches","size":3938,"imports":[]},
+            {"name":"flare_GSIPractice_GreenRoofs","size":3938,"imports":[]},
+            {"name":"flare_GSIPractice_GreenRoofs-Multilayer","size":3938,"imports":[]},
+            {"name":"flare_GSIPractice_Swales","size":3938,"imports":[]},
+            {"name":"flare_GSIPractice_RWH","size":3938,"imports":[]},
+            {"name":"flare_GSIPractice_
