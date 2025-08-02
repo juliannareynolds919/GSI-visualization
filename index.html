@@ -33,7 +33,7 @@
   <script>
     const groupColors = ["#3498DB", "#E74C3C", "#2ECC71", "#F39C12", "#9B59B6"];
     const width = 900;
-    const radius = width / 2.8;
+    const radius = width / 3.5;
     const FONT_SIZE = 12, HOVER_FONT_SIZE = 14;
     const RADIUS_PADDING = 50;
     const TEXT_OFFSET = 25, TEXT_VERTICAL_OFFSET = "0.31em";
@@ -89,7 +89,7 @@
       const tree = d3.cluster().size([2 * Math.PI, radius - RADIUS_PADDING]);
       const root = tree(bilink(d3.hierarchy(hierarchy(data))
         .sort((a, b) => d3.ascending(a.height, b.height) || d3.ascending(a.data.name, b.data.name))));
-      
+
       const svg = d3.create("svg")
         .attr("width", width)
         .attr("height", width)
@@ -103,9 +103,7 @@
 
       const groupedNodes = d3.groups(root.leaves(), d => {
         let current = d;
-        while (current.parent && current.parent !== root) {
-          current = current.parent;
-        }
+        while (current.parent && current.parent !== root) current = current.parent;
         return current.data.name;
       });
 
@@ -166,73 +164,40 @@
           return groupColors[groupIndex % groupColors.length];
         });
 
-      const totalLegendWidth = groupData.length * LEGEND_ITEM_WIDTH;
-      const legendStartX = -totalLegendWidth / 2;
-      const legend = svg.append("g")
-        .attr("class", "legend")
-        .attr("transform", `translate(0, ${-width/2 + LEGEND_TOP_MARGIN})`);
-
-      const legendItems = legend.selectAll(".legend-item")
-        .data(groupData)
-        .join("g")
-        .attr("class", "legend-item")
-        .attr("transform", (d, i) => `translate(${legendStartX + i * LEGEND_ITEM_WIDTH}, 0)`);
-
-      legendItems.append("circle")
-        .attr("cx", LEGEND_CIRCLE_RADIUS)
-        .attr("cy", 0)
-        .attr("r", LEGEND_CIRCLE_RADIUS)
-        .attr("fill", (d, i) => groupColors[i % groupColors.length])
-        .attr("stroke", "#333")
-        .attr("stroke-width", 0.5);
-
-      legendItems.append("text")
-        .attr("x", LEGEND_TEXT_OFFSET)
-        .attr("y", 0)
-        .attr("dy", "0.35em")
-        .attr("font-size", "12px")
-        .attr("fill", "#333")
-        .text(d => d.label);
-
-      legendItems.style("cursor", "pointer")
-        .on("mouseover", function(event, d) {
-          d3.select(this).select("circle").attr("stroke-width", 2);
-          d3.select(this).select("text").attr("font-weight", "bold");
-          const groupIndex = groupData.findIndex(group => group.label === d.label);
-          svg.selectAll("path")
-            .filter(function() {
-              return d3.select(this).attr("stroke") === groupColors[groupIndex % groupColors.length];
-            })
-            .attr("stroke-width", 15)
-            .attr("opacity", 1);
-        })
-        .on("mouseout", function(event, d) {
-          d3.select(this).select("circle").attr("stroke-width", 0.5);
-          d3.select(this).select("text").attr("font-weight", "normal");
-          const groupIndex = groupData.findIndex(group => group.label === d.label);
-          svg.selectAll("path")
-            .filter(function() {
-              return d3.select(this).attr("stroke") === groupColors[groupIndex % groupColors.length];
-            })
-            .attr("stroke-width", 10)
-            .attr("opacity", 1);
-        });
-
       function overed(event, d) {
         link.style("mix-blend-mode", null);
         d3.select(this).attr("font-weight", "bold").attr("font-size", HOVER_FONT_SIZE);
-        d.incoming.forEach(([src, tgt]) => {
-          let current = tgt;
-          while (current.parent && current.parent !== root) current = current.parent;
-          const idx = groupData.findIndex(g => g.label === current.data.name);
-          d3.select(src.path).attr("stroke", groupColors[idx % groupColors.length]).attr("stroke-width", HOVER_STROKE_WIDTH).raise();
+
+        // Highlight incoming links
+        d.incoming.forEach(([source, target]) => {
+          let categoryNode = target;
+          while (categoryNode.parent && categoryNode.parent !== root) {
+            categoryNode = categoryNode.parent;
+          }
+          const groupIndex = groupData.findIndex(g => g.label === categoryNode.data.name);
+          const color = groupColors[groupIndex % groupColors.length];
+          d3.select(source.path)
+            .attr("stroke", color)
+            .attr("stroke-width", HOVER_STROKE_WIDTH)
+            .raise();
         });
-        d.outgoing.forEach(([src, tgt]) => {
-          let current = tgt;
-          while (current.parent && current.parent !== root) current = current.parent;
-          const idx = groupData.findIndex(g => g.label === current.data.name);
-          d3.select(src.path).attr("stroke", groupColors[idx % groupColors.length]).attr("stroke-width", HOVER_STROKE_WIDTH).raise();
+
+        // Highlight outgoing links
+        d.outgoing.forEach(([source, target]) => {
+          let categoryNode = target;
+          while (categoryNode.parent && categoryNode.parent !== root) {
+            categoryNode = categoryNode.parent;
+          }
+          const groupIndex = groupData.findIndex(g => g.label === categoryNode.data.name);
+          const color = groupColors[groupIndex % groupColors.length];
+          d3.select(source.path)
+            .attr("stroke", color)
+            .attr("stroke-width", HOVER_STROKE_WIDTH)
+            .raise();
         });
+
+        d3.selectAll(d.incoming.map(([d]) => d.text)).attr("font-weight", "bold").attr("font-size", HOVER_FONT_SIZE);
+        d3.selectAll(d.outgoing.map(([, d]) => d.text)).attr("font-weight", "bold").attr("font-size", HOVER_FONT_SIZE);
       }
 
       function outed(event, d) {
@@ -240,21 +205,5 @@
         d3.select(this).attr("font-weight", null).attr("font-size", FONT_SIZE);
         d.incoming.forEach(([src]) => d3.select(src.path).attr("stroke", "#ccc").attr("stroke-width", DEFAULT_STROKE_WIDTH));
         d.outgoing.forEach(([src]) => d3.select(src.path).attr("stroke", "#ccc").attr("stroke-width", DEFAULT_STROKE_WIDTH));
-      }
-
-      return svg.node();
-    }
-
-    fetch("gsi-data.json")
-      .then(res => res.json())
-      .then(data => {
-        const chart = createChart(data);
-        document.getElementById("chart").innerHTML = "";
-        document.getElementById("chart").appendChild(chart);
-      })
-      .catch(err => {
-        document.getElementById("chart").innerHTML = `<p style="color:red;">Error loading data: ${err.message}</p>`;
-      });
-  </script>
-</body>
-</html>
+        d3.selectAll(d.incoming.map(([d]) => d.text)).attr("font-weight", null).attr("font-size", FONT_SIZE);
+        d3.selectAll(d.outgoing.map(([, d]) => d.text)).at
