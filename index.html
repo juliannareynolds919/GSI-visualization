@@ -1,267 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GSI Research Network - Radial Chart</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <style>
-        body {
-            margin: 0;
-            padding: 20px;
-            font-family: sans-serif;
-            background: white;
-        }
-        #chart {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
-        .chart-container {
-            max-width: 900px;
-            width: 100%;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>GSI Research Network - Radial Chart</title>
+  <script src="https://cdn.jsdelivr.net/npm/d3@6"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      padding: 20px;
+      background-color: #fff;
+    }
+    svg {
+      max-width: 100%;
+      height: auto;
+      font: 10px sans-serif;
+    }
+    #chart {
+      display: flex;
+      justify-content: center;
+    }
+  </style>
 </head>
 <body>
-    <div id="chart">
-        <div class="chart-container"></div>
-    </div>
+  <h2 style="text-align:center;">GSI Research Network Radial Chart</h2>
+  <div id="chart">Loading...</div>
 
-    <script>
-        // GSI Research Data
-        let chartData = null;
+  <script>
+    const colorIn = "#ff7f0e";
+    const colorOut = "#1f77b4";
+    const colorNone = "#ccc";
 
-        // Color definitions
-        const colorin = "#ff7f0e";
-        const colorout = "#1f77b4";
-        const colornone = "#ccc";
-
-        // Helper functions
-        function hierarchy(data, delimiter = "_") {
-            let root;
-            const map = new Map();
-            data.forEach(function find(data) {
-                const {name} = data;
-                if (map.has(name)) return map.get(name);
-                const i = name.lastIndexOf(delimiter);
-                map.set(name, data);
-                if (i >= 0) {
-                    find({name: name.substring(0, i), children: []}).children.push(data);
-                    data.name = name.substring(i + 1);
-                } else {
-                    root = data;
-                }
-                return data;
-            });
-            return root;
+    function hierarchy(data, delimiter = "_") {
+      let root;
+      const map = new Map();
+      data.forEach(function find(data) {
+        const { name } = data;
+        if (map.has(name)) return map.get(name);
+        const i = name.lastIndexOf(delimiter);
+        map.set(name, data);
+        if (i >= 0) {
+          find({ name: name.substring(0, i), children: [] }).children.push(data);
+          data.name = name.substring(i + 1);
+        } else {
+          root = data;
         }
+        return data;
+      });
+      return root;
+    }
 
-        function bilink(root) {
-            const map = new Map(root.leaves().map(d => [id(d), d]));
-            for (const d of root.leaves()) {
-                d.incoming = [];
-                d.outgoing = (d.data.imports || []).map(i => [d, map.get(i)]).filter(([,target]) => target);
-            }
-            for (const d of root.leaves()) {
-                for (const o of d.outgoing) {
-                    o[1].incoming.push(o);
-                }
-            }
-            return root;
+    function bilink(root) {
+      const map = new Map(root.leaves().map(d => [id(d), d]));
+      for (const d of root.leaves()) {
+        d.incoming = [];
+        d.outgoing = (d.data.imports || []).map(i => [d, map.get(i)]).filter(([, target]) => target);
+      }
+      for (const d of root.leaves()) {
+        for (const o of d.outgoing) {
+          o[1].incoming.push(o);
         }
+      }
+      return root;
+    }
 
-        function id(node) {
-            return `${node.parent ? id(node.parent) + "_" : ""}${node.data.name}`;
-        }
+    function id(node) {
+      return `${node.parent ? id(node.parent) + "_" : ""}${node.data.name}`;
+    }
 
-        function wrapRadial(text, maxWidth) {
-            text.each(function() {
-                const textElement = d3.select(this);
-                const words = textElement.text().split(/\s+/);
-                
-                if (words.length <= 1) return;
-                
-                textElement.text(null);
-                const x = textElement.attr("x") || 0;
-                const y = textElement.attr("y") || 0;
-                const dy = parseFloat(textElement.attr("dy")) || 0;
-                const textAnchor = textElement.attr("text-anchor") || "start";
-                
-                let line = [];
-                let lineNumber = 0;
-                const lineHeight = 1.25;
-                
-                let tspan = textElement.append("tspan")
-                    .attr("x", x)
-                    .attr("y", y)
-                    .attr("dy", dy + "em")
-                    .attr("text-anchor", textAnchor);
-                
-                words.forEach(word => {
-                    line.push(word);
-                    tspan.text(line.join(" "));
-                    
-                    if (tspan.node().getComputedTextLength() > maxWidth && line.length > 1) {
-                        line.pop();
-                        tspan.text(line.join(" "));
-                        
-                        line = [word];
-                        lineNumber++;
-                        tspan = textElement.append("tspan")
-                            .attr("x", x)
-                            .attr("y", y)
-                            .attr("dy", (lineNumber * lineHeight + dy) + "em")
-                            .attr("text-anchor", textAnchor)
-                            .text(word);
-                    }
-                });
-            });
-        }
+    function createChart(data) {
+      const width = 900;
+      const radius = width / 2;
 
-        // Main chart function
-        function createChart(loadedData) {
-            const data = hierarchy(loadedData);
-            const width = 900;
-            const radius = width / 3;
+      const tree = d3.cluster().size([2 * Math.PI, radius - 100]);
 
-            const tree = d3.cluster()
-                .size([2 * Math.PI, radius - 50]);
-            
-            const root = tree(bilink(d3.hierarchy(data)
-                .sort((a, b) => d3.ascending(a.height, b.height) || d3.ascending(a.data.name, b.data.name))));
+      const root = tree(
+        bilink(
+          d3.hierarchy(hierarchy(data))
+            .sort((a, b) => d3.ascending(a.height, b.height) || d3.ascending(a.data.name, b.data.name))
+        )
+      );
 
-            const svg = d3.create("svg")
-                .attr("width", width)
-                .attr("height", width)
-                .attr("viewBox", [-width / 2, -width / 2, width, width])
-                .attr("style", "max-width: 100%; height: auto; font: 16px sans-serif;");
+      const svg = d3.create("svg")
+        .attr("viewBox", [-width / 2, -width / 2, width, width]);
 
-            const node = svg.append("g")
-                .selectAll()
-                .data(root.leaves())
-                .join("g")
-                .attr("transform", d => `rotate(${d.x * 180 / Math.PI - 90}) translate(${d.y},0)`)
-                .append("text")
-                .attr("dy", "0.31em")
-                .attr("x", d => d.x < Math.PI ? 20 : -20)
-                .attr("text-anchor", d => d.x < Math.PI ? "start" : "end")
-                .attr("transform", d => d.x >= Math.PI ? "rotate(180)" : null)
-                .text(d => d.data.name)
-                .call(wrapRadial, 200)
-                .each(function(d) { d.text = this; })
-                .on("mouseover", overed)
-                .on("mouseout", outed)
-                .call(text => text.append("title").text(d => `${id(d)}
-${d.outgoing.length} outgoing
-${d.incoming.length} incoming`));
+      const link = svg.append("g")
+        .attr("stroke", colorNone)
+        .attr("fill", "none")
+        .selectAll("path")
+        .data(root.leaves().flatMap(leaf => leaf.outgoing))
+        .join("path")
+        .attr("d", ([a, b]) => d3.lineRadial()
+          .curve(d3.curveBundle.beta(0.85))
+          .radius(d => d.y)
+          .angle(d => d.x)(a.path(b)))
+        .each(function(d) { d.path = this; });
 
-            // Group nodes by category
-            const groupedNodes = d3.groups(root.leaves(), d => {
-                let current = d;
-                while (current.parent && current.parent !== root) {
-                    current = current.parent;
-                }
-                return current.data.name;
-            });
-
-            // Create group data with proper angle calculations
-            const groupData = groupedNodes.map(([category, nodes]) => {
-                const angles = nodes.map(d => d.x).sort(d3.ascending);
-                const avgAngle = (angles[0] + angles[angles.length - 1]) / 2;
-                
-                return {
-                    label: category,
-                    startAngle: angles[0],
-                    endAngle: angles[angles.length - 1],
-                    avgAngle: avgAngle
-                };
-            }).sort((a, b) => a.avgAngle - b.avgAngle);
-            
-            // Add group labels
-            groupData.forEach((group, i) => {
-                const labelRadius = radius + 50;
-                
-                svg.append("text")
-                    .attr("transform", `rotate(${group.avgAngle * 180 / Math.PI - 90}) translate(${labelRadius},0)`)
-                    .attr("dy", "0.35em")
-                    .attr("text-anchor", "middle")
-                    .attr("font-weight", "bold")
-                    .attr("font-size", "14px")
-                    .attr("fill", "#333")
-                    .text(group.label);
-            });
-
-            const line = d3.lineRadial()
-                .curve(d3.curveBundle.beta(0.85))
-                .radius(d => d.y)
-                .angle(d => d.x);
-
-            const link = svg.append("g")
-                .attr("stroke", colornone)
-                .attr("fill", "none")
-                .selectAll()
-                .data(root.leaves().flatMap(leaf => leaf.outgoing))
-                .join("path")
-                .style("mix-blend-mode", "multiply")
-                .attr("d", ([i, o]) => line(i.path(o)))
-                .each(function(d) { d.path = this; });
-
-            function overed(event, d) {
-                link.style("mix-blend-mode", null);
-                d3.select(this).attr("font-weight", "bold");
-                d3.selectAll(d.incoming.map(d => d.path)).attr("stroke", colorin).raise();
-                d3.selectAll(d.incoming.map(([d]) => d.text)).attr("fill", colorin).attr("font-weight", "bold");
-                d3.selectAll(d.outgoing.map(d => d.path)).attr("stroke", colorout).raise();
-                d3.selectAll(d.outgoing.map(([, d]) => d.text)).attr("fill", colorout).attr("font-weight", "bold");
-            }
-
-            function outed(event, d) {
-                link.style("mix-blend-mode", "multiply");
-                d3.select(this).attr("font-weight", null);
-                d3.selectAll(d.incoming.map(d => d.path)).attr("stroke", null);
-                d3.selectAll(d.incoming.map(([d]) => d.text)).attr("fill", null).attr("font-weight", null);
-                d3.selectAll(d.outgoing.map(d => d.path)).attr("stroke", null);
-                d3.selectAll(d.outgoing.map(([, d]) => d.text)).attr("fill", null).attr("font-weight", null);
-            }
-
-            return svg.node();
-        }
-
-        // Load data and initialize the chart
-document.addEventListener('DOMContentLoaded', function() {
-    const chartContainer = document.querySelector('.chart-container');
-    
-    // Show loading message
-    chartContainer.innerHTML = '<p style="text-align: center; padding: 50px;">Loading GSI research data...</p>';
-    
-    // Load data from external JSON file
-    fetch('./data/gsi-data.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
+      const node = svg.append("g")
+        .selectAll("text")
+        .data(root.leaves())
+        .join("text")
+        .attr("dy", "0.31em")
+        .attr("transform", d => `
+          rotate(${d.x * 180 / Math.PI - 90})
+          translate(${d.y},0)
+          ${d.x >= Math.PI ? "rotate(180)" : ""}
+        `)
+        .attr("x", d => d.x < Math.PI ? 6 : -6)
+        .attr("text-anchor", d => d.x < Math.PI ? "start" : "end")
+        .text(d => d.data.name)
+        .on("mouseover", function(event, d) {
+          link.style("mix-blend-mode", null);
+          d3.select(this).attr("font-weight", "bold");
+          d3.selectAll(d.incoming.map(d => d.path)).attr("stroke", colorIn).raise();
+          d3.selectAll(d.incoming.map(([d]) => d.text)).attr("fill", colorIn).attr("font-weight", "bold");
+          d3.selectAll(d.outgoing.map(d => d.path)).attr("stroke", colorOut).raise();
+          d3.selectAll(d.outgoing.map(([, d]) => d.text)).attr("fill", colorOut).attr("font-weight", "bold");
         })
-        .then(loadedData => {
-            // Clear loading message
-            chartContainer.innerHTML = '';
-            
-            // Create and display chart
-            const chartNode = createChart(loadedData);
-            chartContainer.appendChild(chartNode);
+        .on("mouseout", function(event, d) {
+          link.style("mix-blend-mode", "multiply");
+          d3.select(this).attr("font-weight", null);
+          d3.selectAll(d.incoming.map(d => d.path)).attr("stroke", colorNone);
+          d3.selectAll(d.incoming.map(([d]) => d.text)).attr("fill", null).attr("font-weight", null);
+          d3.selectAll(d.outgoing.map(d => d.path)).attr("stroke", colorNone);
+          d3.selectAll(d.outgoing.map(([, d]) => d.text)).attr("fill", null).attr("font-weight", null);
         })
-        .catch(error => {
-            console.error('Error loading data:', error);
-            chartContainer.innerHTML = `
-                <div style="text-align: center; padding: 50px; color: red;">
-                    <h3>Error Loading Chart</h3>
-                    <p>Could not load GSI research data.</p>
-                    <p>Error: ${error.message}</p>
-                </div>
-            `;
-        });
-});
-    </script>
+        .each(function(d) { d.text = this; })
+        .append("title")
+        .text(d => `${id(d)}\n${d.outgoing.length} outgoing\n${d.incoming.length} incoming`);
+
+      return svg.node();
+    }
+
+    fetch("gsi-data.json")
+      .then(res => res.json())
+      .then(data => {
+        const chart = createChart(data);
+        const chartDiv = document.getElementById("chart");
+        chartDiv.innerHTML = "";
+        chartDiv.appendChild(chart);
+      })
+      .catch(err => {
+        document.getElementById("chart").innerHTML = `<p style="color:red;">Error loading data: ${err.message}</p>`;
+      });
+  </script>
 </body>
 </html>
