@@ -35,6 +35,10 @@ const TEXT_VERTICAL_OFFSET = "0.31em";
 const CURVE_BETA = 0.75;
 const DEFAULT_STROKE_WIDTH = 1;
 const HOVER_STROKE_WIDTH = 3;
+const LEGEND_ITEM_WIDTH = 120;
+const LEGEND_CIRCLE_RADIUS = 8;
+const LEGEND_TEXT_OFFSET = 20;
+const LEGEND_TOP_MARGIN = 20;
 const ROTATION_DEGREES = 10;
 const ROTATION_RADIANS = ROTATION_DEGREES * Math.PI / 180;
 const BASE_ROTATION = Math.PI / 2;
@@ -117,6 +121,18 @@ fetch("gsi-data.json")
       };
     });
 
+    groupData.forEach((group, i) => {
+      const arc = d3.arc().innerRadius(radius - 40).outerRadius(radius - 40);
+      svg.append("path")
+        .attr("d", arc({
+          startAngle: group.startAngle + TOTAL_ROTATION,
+          endAngle: group.endAngle + TOTAL_ROTATION
+        }))
+        .attr("stroke", groupColors[i % groupColors.length])
+        .attr("stroke-width", 10)
+        .attr("fill", "none");
+    });
+
     const link = svg.append("g")
       .attr("stroke", colornone)
       .attr("stroke-width", DEFAULT_STROKE_WIDTH)
@@ -137,6 +153,7 @@ fetch("gsi-data.json")
         while (current.parent && current.parent !== root) current = current.parent;
         const groupIndex = groupData.findIndex(g => g.label === current.data.name);
         d3.select(source.path).attr("stroke", groupColors[groupIndex]).attr("stroke-width", HOVER_STROKE_WIDTH).raise();
+        d3.select(source.text).attr("font-weight", "bold").attr("font-size", HOVER_FONT_SIZE);
       });
 
       d.outgoing.forEach(([source, target]) => {
@@ -144,10 +161,8 @@ fetch("gsi-data.json")
         while (current.parent && current.parent !== root) current = current.parent;
         const groupIndex = groupData.findIndex(g => g.label === current.data.name);
         d3.select(source.path).attr("stroke", groupColors[groupIndex]).attr("stroke-width", HOVER_STROKE_WIDTH).raise();
+        d3.select(target.text).attr("font-weight", "bold").attr("font-size", HOVER_FONT_SIZE);
       });
-
-      d3.selectAll(d.incoming.map(([d]) => d.text)).attr("font-weight", "bold").attr("font-size", HOVER_FONT_SIZE);
-      d3.selectAll(d.outgoing.map(([, d]) => d.text)).attr("font-weight", "bold").attr("font-size", HOVER_FONT_SIZE);
     }
 
     function outed(event, d) {
@@ -173,7 +188,56 @@ fetch("gsi-data.json")
       .each(function (d) { d.text = this; })
       .on("mouseover", overed)
       .on("mouseout", outed)
-      .call(text => text.append("title").text(d => `${id(d)}\n${d.outgoing.length} outgoing\n${d.incoming.length} incoming`));
+      .call(text => text.append("title").text(d => `${id(d)}\n${d.outgoing.length} outgoing\n${d.incoming.length} incoming`))
+      .attr("fill", function (d) {
+        let current = d;
+        while (current.parent && current.parent !== root) current = current.parent;
+        const groupIndex = groupData.findIndex(group => group.label === current.data.name);
+        return groupColors[groupIndex % groupColors.length];
+      });
+
+    // Legend
+    const totalLegendWidth = groupData.length * LEGEND_ITEM_WIDTH;
+    const legendStartX = -totalLegendWidth / 2;
+
+    const legend = svg.append("g")
+      .attr("class", "legend")
+      .attr("transform", `translate(0, ${-width / 2 + LEGEND_TOP_MARGIN})`);
+
+    const legendItems = legend.selectAll(".legend-item")
+      .data(groupData)
+      .join("g")
+      .attr("class", "legend-item")
+      .attr("transform", (d, i) => `translate(${legendStartX + i * LEGEND_ITEM_WIDTH}, 0)`)
+      .on("mouseover", (event, d) => {
+        const index = groupData.findIndex(g => g.label === d.label);
+        svg.selectAll("path")
+          .filter(function () {
+            return d3.select(this).attr("stroke") === groupColors[index % groupColors.length];
+          })
+          .attr("stroke-width", 5)
+          .raise();
+      })
+      .on("mouseout", () => {
+        svg.selectAll("path")
+          .attr("stroke-width", DEFAULT_STROKE_WIDTH);
+      });
+
+    legendItems.append("circle")
+      .attr("cx", LEGEND_CIRCLE_RADIUS)
+      .attr("cy", 0)
+      .attr("r", LEGEND_CIRCLE_RADIUS)
+      .attr("fill", (d, i) => groupColors[i % groupColors.length])
+      .attr("stroke", "#333")
+      .attr("stroke-width", 0.5);
+
+    legendItems.append("text")
+      .attr("x", LEGEND_TEXT_OFFSET)
+      .attr("y", 0)
+      .attr("dy", "0.35em")
+      .attr("font-size", "12px")
+      .attr("fill", "#333")
+      .text(d => d.label);
 
     document.getElementById("chart").appendChild(svg.node());
   });
