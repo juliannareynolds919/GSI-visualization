@@ -30,58 +30,6 @@
 <div id="chart"></div>
 
 <script>
-// Sample data since gsi-data.json is not available
-const sampleData = [
-  {
-    "name": "Research_Methods_Quantitative_Statistical_Analysis",
-    "imports": ["Research_Methods_Qualitative_Case_Studies", "Applications_Urban_Planning"]
-  },
-  {
-    "name": "Research_Methods_Quantitative_Modeling",
-    "imports": ["Research_Methods_Experimental_Lab_Studies", "Applications_Hydrology"]
-  },
-  {
-    "name": "Research_Methods_Qualitative_Case_Studies",
-    "imports": ["Applications_Policy", "Challenges_Climate_Adaptation"]
-  },
-  {
-    "name": "Research_Methods_Experimental_Lab_Studies",
-    "imports": ["Research_Methods_Quantitative_Modeling"]
-  },
-  {
-    "name": "Applications_Urban_Planning",
-    "imports": ["Applications_Policy", "Challenges_Implementation"]
-  },
-  {
-    "name": "Applications_Hydrology",
-    "imports": ["Challenges_Climate_Adaptation"]
-  },
-  {
-    "name": "Applications_Policy",
-    "imports": ["Challenges_Implementation"]
-  },
-  {
-    "name": "Challenges_Climate_Adaptation",
-    "imports": ["Challenges_Implementation"]
-  },
-  {
-    "name": "Challenges_Implementation",
-    "imports": []
-  },
-  {
-    "name": "Technologies_Green_Roofs",
-    "imports": ["Technologies_Bioswales", "Applications_Urban_Planning"]
-  },
-  {
-    "name": "Technologies_Bioswales",
-    "imports": ["Applications_Hydrology"]
-  },
-  {
-    "name": "Technologies_Permeable_Pavements",
-    "imports": ["Technologies_Green_Roofs", "Research_Methods_Experimental_Lab_Studies"]
-  }
-];
-
 const width = 900;
 const radius = width / 2.8;
 const RADIUS_PADDING = 50;
@@ -372,3 +320,4 @@ document.getElementById("chart").appendChild(svg.node());
 </script>
 </body>
 </html>
+
