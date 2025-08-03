@@ -145,24 +145,45 @@ fetch("gsi-data.json")
     function overed(event, d) {
       link.style("mix-blend-mode", null);
       d3.select(this).attr("font-weight", "bold").attr("font-size", HOVER_FONT_SIZE);
-
-      d.incoming.forEach(([source, target]) => {
+      
+      // Color each incoming link based on its DESTINATION category
+      d.incoming.forEach(linkData => {
+        const [source, target] = linkData;
+        
+        // Find the destination node's category
         let current = target;
-        while (current.parent && current.parent !== root) current = current.parent;
-        const groupIndex = groupData.findIndex(g => g.label === current.data.name);
-        d3.select(source.path).attr("stroke", groupColors[groupIndex]).attr("stroke-width", HOVER_STROKE_WIDTH).raise();
-        d3.select(source.text).attr("font-weight", "bold").attr("font-size", HOVER_FONT_SIZE);
+        while (current.parent && current.parent !== root) {
+          current = current.parent;
+        }
+        const groupName = current.data.name;
+        const groupIndex = groupData.findIndex(group => group.label === groupName);
+        const categoryColor = groupColors[groupIndex % groupColors.length];
+        
+        // Apply the destination category color to this specific link
+        d3.select(linkData.path).attr("stroke", categoryColor).attr("stroke-width", HOVER_STROKE_WIDTH).raise();
       });
-
-      d.outgoing.forEach(([source, target]) => {
+      
+      d3.selectAll(d.incoming.map(([d]) => d.text)).attr("font-weight", "bold").attr("font-size", HOVER_FONT_SIZE);
+      
+      // Color each outgoing link based on its destination category
+      d.outgoing.forEach(linkData => {
+        const [source, target] = linkData;
+        
+        // Find the destination node's category
         let current = target;
-        while (current.parent && current.parent !== root) current = current.parent;
-        const groupIndex = groupData.findIndex(g => g.label === current.data.name);
-        d3.select(source.path).attr("stroke", groupColors[groupIndex]).attr("stroke-width", HOVER_STROKE_WIDTH).raise();
-        d3.select(target.text).attr("font-weight", "bold").attr("font-size", HOVER_FONT_SIZE);
+        while (current.parent && current.parent !== root) {
+          current = current.parent;
+        }
+        const groupName = current.data.name;
+        const groupIndex = groupData.findIndex(group => group.label === groupName);
+        const categoryColor = groupColors[groupIndex % groupColors.length];
+        
+        // Apply the destination category color to this specific link
+        d3.select(linkData.path).attr("stroke", categoryColor).attr("stroke-width", HOVER_STROKE_WIDTH).raise();
       });
+      
+      d3.selectAll(d.outgoing.map(([, d]) => d.text)).attr("font-weight", "bold").attr("font-size", HOVER_FONT_SIZE);
     }
-
     function outed(event, d) {
       link.style("mix-blend-mode", "multiply");
       d3.select(this).attr("font-weight", null).attr("font-size", FONT_SIZE);
@@ -242,3 +263,4 @@ fetch("gsi-data.json")
 </script>
 </body>
 </html>
+
