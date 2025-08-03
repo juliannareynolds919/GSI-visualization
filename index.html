@@ -16,13 +16,72 @@
     .legend text {
       text-transform: capitalize;
     }
+    .legend-item {
+      cursor: pointer;
+    }
+    #chart {
+      margin-top: 2rem;
+    }
   </style>
 </head>
 <body>
 
 <h1>Assessing green stormwater infrastructure research and gaps in arid climates</h1>
+<div id="chart"></div>
 
 <script>
+// Sample data since gsi-data.json is not available
+const sampleData = [
+  {
+    "name": "Research_Methods_Quantitative_Statistical_Analysis",
+    "imports": ["Research_Methods_Qualitative_Case_Studies", "Applications_Urban_Planning"]
+  },
+  {
+    "name": "Research_Methods_Quantitative_Modeling",
+    "imports": ["Research_Methods_Experimental_Lab_Studies", "Applications_Hydrology"]
+  },
+  {
+    "name": "Research_Methods_Qualitative_Case_Studies",
+    "imports": ["Applications_Policy", "Challenges_Climate_Adaptation"]
+  },
+  {
+    "name": "Research_Methods_Experimental_Lab_Studies",
+    "imports": ["Research_Methods_Quantitative_Modeling"]
+  },
+  {
+    "name": "Applications_Urban_Planning",
+    "imports": ["Applications_Policy", "Challenges_Implementation"]
+  },
+  {
+    "name": "Applications_Hydrology",
+    "imports": ["Challenges_Climate_Adaptation"]
+  },
+  {
+    "name": "Applications_Policy",
+    "imports": ["Challenges_Implementation"]
+  },
+  {
+    "name": "Challenges_Climate_Adaptation",
+    "imports": ["Challenges_Implementation"]
+  },
+  {
+    "name": "Challenges_Implementation",
+    "imports": []
+  },
+  {
+    "name": "Technologies_Green_Roofs",
+    "imports": ["Technologies_Bioswales", "Applications_Urban_Planning"]
+  },
+  {
+    "name": "Technologies_Bioswales",
+    "imports": ["Applications_Hydrology"]
+  },
+  {
+    "name": "Technologies_Permeable_Pavements",
+    "imports": ["Technologies_Green_Roofs", "Research_Methods_Experimental_Lab_Studies"]
+  }
+];
+
 const width = 900;
 const radius = width / 2.8;
 const RADIUS_PADDING = 50;
@@ -85,161 +144,231 @@ function bilink(root) {
   return root;
 }
 
-fetch("gsi-data.json")
-  .then(res => res.json())
-  .then(data => {
-    const tree = d3.cluster().size([2 * Math.PI, radius - RADIUS_PADDING]);
-    const root = tree(bilink(d3.hierarchy(hierarchy(data))
-      .sort((a, b) => d3.ascending(a.height, b.height) || d3.ascending(a.data.name, b.data.name))));
+// Use sample data instead of fetching
+const data = sampleData;
 
-    const svg = d3.create("svg")
-      .attr("width", width)
-      .attr("height", width)
-      .attr("viewBox", [-width / 2, -width / 2, width, width])
-      .attr("style", `max-width: 100%; height: auto; font: ${FONT_SIZE}px sans-serif;`);
+const tree = d3.cluster().size([2 * Math.PI, radius - RADIUS_PADDING]);
+const root = tree(bilink(d3.hierarchy(hierarchy(data))
+  .sort((a, b) => d3.ascending(a.height, b.height) || d3.ascending(a.data.name, b.data.name))));
 
-    const line = d3.lineRadial()
-      .curve(d3.curveBundle.beta(CURVE_BETA))
-      .radius(d => d.y)
-      .angle(d => d.x + TOTAL_ROTATION);
+const svg = d3.create("svg")
+  .attr("width", width)
+  .attr("height", width)
+  .attr("viewBox", [-width / 2, -width / 2, width, width])
+  .attr("style", `max-width: 100%; height: auto; font: ${FONT_SIZE}px sans-serif;`);
 
-    const groupedNodes = d3.groups(root.leaves(), d => {
-      let current = d;
-      while (current.parent && current.parent !== root) current = current.parent;
-      return current.data.name;
-    });
+const line = d3.lineRadial()
+  .curve(d3.curveBundle.beta(CURVE_BETA))
+  .radius(d => d.y)
+  .angle(d => d.x + TOTAL_ROTATION);
 
-    const groupData = groupedNodes.map(([label, nodes]) => {
-      const angles = nodes.map(d => d.x).sort(d3.ascending);
-      return {
-        label,
-        startAngle: angles[0],
-        endAngle: angles[angles.length - 1],
-        avgAngle: (angles[0] + angles[angles.length - 1]) / 2
-      };
-    });
+const groupedNodes = d3.groups(root.leaves(), d => {
+  let current = d;
+  while (current.parent && current.parent !== root) current = current.parent;
+  return current.data.name;
+});
 
-    groupData.forEach((group, i) => {
-      const arc = d3.arc().innerRadius(radius - 40).outerRadius(radius - 40);
-      svg.append("path")
-        .attr("d", arc({
-          startAngle: group.startAngle + TOTAL_ROTATION,
-          endAngle: group.endAngle + TOTAL_ROTATION
-        }))
-        .attr("stroke", groupColors[i % groupColors.length])
-        .attr("stroke-width", 10)
-        .attr("fill", "none");
-    });
+const groupData = groupedNodes.map(([label, nodes]) => {
+  const angles = nodes.map(d => d.x).sort(d3.ascending);
+  return {
+    label,
+    nodes,
+    startAngle: angles[0],
+    endAngle: angles[angles.length - 1],
+    avgAngle: (angles[0] + angles[angles.length - 1]) / 2
+  };
+});
 
-    const link = svg.append("g")
-      .attr("stroke", colornone)
-      .attr("stroke-width", DEFAULT_STROKE_WIDTH)
-      .attr("fill", "none")
-      .selectAll("path")
-      .data(root.leaves().flatMap(leaf => leaf.outgoing))
-      .join("path")
-      .style("mix-blend-mode", "multiply")
-      .attr("d", ([i, o]) => line(i.path(o)))
-      .each(function (d) { d.path = this; });
+// Draw group arcs
+groupData.forEach((group, i) => {
+  const arc = d3.arc().innerRadius(radius - 40).outerRadius(radius - 40);
+  svg.append("path")
+    .attr("d", arc({
+      startAngle: group.startAngle + TOTAL_ROTATION,
+      endAngle: group.endAngle + TOTAL_ROTATION
+    }))
+    .attr("stroke", groupColors[i % groupColors.length])
+    .attr("stroke-width", 10)
+    .attr("fill", "none")
+    .attr("class", `group-arc-${i}`);
+});
 
-    function overed(event, d) {
-      link.style("mix-blend-mode", null);
-      d3.select(this).attr("font-weight", "bold").attr("font-size", HOVER_FONT_SIZE);
+const link = svg.append("g")
+  .attr("stroke", colornone)
+  .attr("stroke-width", DEFAULT_STROKE_WIDTH)
+  .attr("fill", "none")
+  .selectAll("path")
+  .data(root.leaves().flatMap(leaf => leaf.outgoing))
+  .join("path")
+  .style("mix-blend-mode", "multiply")
+  .attr("d", ([i, o]) => line(i.path(o)))
+  .each(function (d) { d.path = this; });
 
-      d.incoming.forEach(([source, target]) => {
-        let current = target;
-        while (current.parent && current.parent !== root) current = current.parent;
-        const groupIndex = groupData.findIndex(g => g.label === current.data.name);
-        d3.select(source.path).attr("stroke", groupColors[groupIndex]).attr("stroke-width", HOVER_STROKE_WIDTH).raise();
-        d3.select(source.text).attr("font-weight", "bold").attr("font-size", HOVER_FONT_SIZE);
-      });
+function overed(event, d) {
+  link.style("mix-blend-mode", null);
+  d3.select(this).attr("font-weight", "bold").attr("font-size", HOVER_FONT_SIZE);
 
-      d.outgoing.forEach(([source, target]) => {
-        let current = target;
-        while (current.parent && current.parent !== root) current = current.parent;
-        const groupIndex = groupData.findIndex(g => g.label === current.data.name);
-        d3.select(source.path).attr("stroke", groupColors[groupIndex]).attr("stroke-width", HOVER_STROKE_WIDTH).raise();
-        d3.select(target.text).attr("font-weight", "bold").attr("font-size", HOVER_FONT_SIZE);
-      });
-    }
-
-    function outed(event, d) {
-      link.style("mix-blend-mode", "multiply");
-      d3.select(this).attr("font-weight", null).attr("font-size", FONT_SIZE);
-      d3.selectAll(d.incoming.map(d => d.path)).attr("stroke", colornone).attr("stroke-width", DEFAULT_STROKE_WIDTH);
-      d3.selectAll(d.outgoing.map(d => d.path)).attr("stroke", colornone).attr("stroke-width", DEFAULT_STROKE_WIDTH);
-      d3.selectAll(d.incoming.map(([d]) => d.text)).attr("font-weight", null).attr("font-size", FONT_SIZE);
-      d3.selectAll(d.outgoing.map(([, d]) => d.text)).attr("font-weight", null).attr("font-size", FONT_SIZE);
-    }
-
-    svg.append("g")
-      .selectAll("text")
-      .data(root.leaves())
-      .join("g")
-      .attr("transform", d => `rotate(${d.x * 180 / Math.PI + ROTATION_DEGREES}) translate(${d.y},0)`)
-      .append("text")
-      .attr("dy", TEXT_VERTICAL_OFFSET)
-      .attr("x", d => (d.x >= LEFT_START_ANGLE && d.x < LEFT_END_ANGLE) ? -TEXT_OFFSET : TEXT_OFFSET)
-      .attr("text-anchor", d => (d.x >= LEFT_START_ANGLE && d.x < LEFT_END_ANGLE) ? "end" : "start")
-      .attr("transform", d => (d.x >= LEFT_START_ANGLE && d.x < LEFT_END_ANGLE) ? "rotate(180)" : null)
-      .text(d => d.data.name)
-      .each(function (d) { d.text = this; })
-      .on("mouseover", overed)
-      .on("mouseout", outed)
-      .call(text => text.append("title").text(d => `${id(d)}\n${d.outgoing.length} outgoing\n${d.incoming.length} incoming`))
-      .attr("fill", function (d) {
-        let current = d;
-        while (current.parent && current.parent !== root) current = current.parent;
-        const groupIndex = groupData.findIndex(group => group.label === current.data.name);
-        return groupColors[groupIndex % groupColors.length];
-      });
-
-    // Legend
-    const totalLegendWidth = groupData.length * LEGEND_ITEM_WIDTH;
-    const legendStartX = -totalLegendWidth / 2;
-
-    const legend = svg.append("g")
-      .attr("class", "legend")
-      .attr("transform", `translate(0, ${-width / 2 + LEGEND_TOP_MARGIN})`);
-
-    const legendItems = legend.selectAll(".legend-item")
-      .data(groupData)
-      .join("g")
-      .attr("class", "legend-item")
-      .attr("transform", (d, i) => `translate(${legendStartX + i * LEGEND_ITEM_WIDTH}, 0)`)
-      .on("mouseover", (event, d) => {
-        const index = groupData.findIndex(g => g.label === d.label);
-        svg.selectAll("path")
-          .filter(function () {
-            return d3.select(this).attr("stroke") === groupColors[index % groupColors.length];
-          })
-          .attr("stroke-width", 5)
-          .raise();
-      })
-      .on("mouseout", () => {
-        svg.selectAll("path")
-          .attr("stroke-width", DEFAULT_STROKE_WIDTH);
-      });
-
-    legendItems.append("circle")
-      .attr("cx", LEGEND_CIRCLE_RADIUS)
-      .attr("cy", 0)
-      .attr("r", LEGEND_CIRCLE_RADIUS)
-      .attr("fill", (d, i) => groupColors[i % groupColors.length])
-      .attr("stroke", "#333")
-      .attr("stroke-width", 0.5);
-
-    legendItems.append("text")
-      .attr("x", LEGEND_TEXT_OFFSET)
-      .attr("y", 0)
-      .attr("dy", "0.35em")
-      .attr("font-size", "12px")
-      .attr("fill", "#333")
-      .text(d => d.label);
-
-    document.getElementById("chart").appendChild(svg.node());
+  d.incoming.forEach(([source, target]) => {
+    let current = target;
+    while (current.parent && current.parent !== root) current = current.parent;
+    const groupIndex = groupData.findIndex(g => g.label === current.data.name);
+    d3.select(source.path).attr("stroke", groupColors[groupIndex]).attr("stroke-width", HOVER_STROKE_WIDTH).raise();
+    d3.select(source.text).attr("font-weight", "bold").attr("font-size", HOVER_FONT_SIZE);
   });
+
+  d.outgoing.forEach(([source, target]) => {
+    let current = target;
+    while (current.parent && current.parent !== root) current = current.parent;
+    const groupIndex = groupData.findIndex(g => g.label === current.data.name);
+    d3.select(source.path).attr("stroke", groupColors[groupIndex]).attr("stroke-width", HOVER_STROKE_WIDTH).raise();
+    d3.select(target.text).attr("font-weight", "bold").attr("font-size", HOVER_FONT_SIZE);
+  });
+}
+
+function outed(event, d) {
+  link.style("mix-blend-mode", "multiply");
+  d3.select(this).attr("font-weight", null).attr("font-size", FONT_SIZE);
+  d3.selectAll(d.incoming.map(d => d.path)).attr("stroke", colornone).attr("stroke-width", DEFAULT_STROKE_WIDTH);
+  d3.selectAll(d.outgoing.map(d => d.path)).attr("stroke", colornone).attr("stroke-width", DEFAULT_STROKE_WIDTH);
+  d3.selectAll(d.incoming.map(([d]) => d.text)).attr("font-weight", null).attr("font-size", FONT_SIZE);
+  d3.selectAll(d.outgoing.map(([, d]) => d.text)).attr("font-weight", null).attr("font-size", FONT_SIZE);
+}
+
+// Create text nodes
+const textNodes = svg.append("g")
+  .selectAll("text")
+  .data(root.leaves())
+  .join("g")
+  .attr("transform", d => `rotate(${d.x * 180 / Math.PI + ROTATION_DEGREES}) translate(${d.y},0)`)
+  .append("text")
+  .attr("dy", TEXT_VERTICAL_OFFSET)
+  .attr("x", d => (d.x >= LEFT_START_ANGLE && d.x < LEFT_END_ANGLE) ? -TEXT_OFFSET : TEXT_OFFSET)
+  .attr("text-anchor", d => (d.x >= LEFT_START_ANGLE && d.x < LEFT_END_ANGLE) ? "end" : "start")
+  .attr("transform", d => (d.x >= LEFT_START_ANGLE && d.x < LEFT_END_ANGLE) ? "rotate(180)" : null)
+  .text(d => d.data.name)
+  .each(function (d) { d.text = this; })
+  .on("mouseover", overed)
+  .on("mouseout", outed)
+  .call(text => text.append("title").text(d => `${id(d)}\n${d.outgoing.length} outgoing\n${d.incoming.length} incoming`))
+  .attr("fill", function (d) {
+    let current = d;
+    while (current.parent && current.parent !== root) current = current.parent;
+    const groupIndex = groupData.findIndex(group => group.label === current.data.name);
+    return groupColors[groupIndex % groupColors.length];
+  })
+  .each(function(d) {
+    // Add group class to text nodes for easier selection
+    let current = d;
+    while (current.parent && current.parent !== root) current = current.parent;
+    const groupIndex = groupData.findIndex(group => group.label === current.data.name);
+    d3.select(this).attr("class", `text-group-${groupIndex}`);
+  });
+
+// Legend
+const totalLegendWidth = groupData.length * LEGEND_ITEM_WIDTH;
+const legendStartX = -totalLegendWidth / 2;
+
+const legend = svg.append("g")
+  .attr("class", "legend")
+  .attr("transform", `translate(0, ${-width / 2 + LEGEND_TOP_MARGIN})`);
+
+const legendItems = legend.selectAll(".legend-item")
+  .data(groupData)
+  .join("g")
+  .attr("class", "legend-item")
+  .attr("transform", (d, i) => `translate(${legendStartX + i * LEGEND_ITEM_WIDTH}, 0)`)
+  .on("mouseover", (event, d) => {
+    const index = groupData.findIndex(g => g.label === d.label);
+    const groupColor = groupColors[index % groupColors.length];
+    
+    // Dim all elements first
+    svg.selectAll("text").style("opacity", 0.3);
+    svg.selectAll("path").style("opacity", 0.3);
+    
+    // Highlight nodes in this group
+    svg.selectAll(`.text-group-${index}`)
+      .style("opacity", 1)
+      .attr("font-weight", "bold")
+      .attr("font-size", HOVER_FONT_SIZE);
+    
+    // Highlight group arc
+    svg.select(`.group-arc-${index}`)
+      .style("opacity", 1)
+      .attr("stroke-width", 15);
+    
+    // Highlight connections involving nodes in this group
+    d.nodes.forEach(node => {
+      // Highlight outgoing connections
+      node.outgoing.forEach(([source, target]) => {
+        d3.select(source.path)
+          .style("opacity", 1)
+          .attr("stroke", groupColor)
+          .attr("stroke-width", HOVER_STROKE_WIDTH)
+          .raise();
+        d3.select(target.text)
+          .style("opacity", 1)
+          .attr("font-weight", "bold")
+          .attr("font-size", HOVER_FONT_SIZE);
+      });
+      
+      // Highlight incoming connections
+      node.incoming.forEach(([source, target]) => {
+        d3.select(source.path)
+          .style("opacity", 1)
+          .attr("stroke", groupColor)
+          .attr("stroke-width", HOVER_STROKE_WIDTH)
+          .raise();
+        d3.select(source.text)
+          .style("opacity", 1)
+          .attr("font-weight", "bold")
+          .attr("font-size", HOVER_FONT_SIZE);
+      });
+    });
+  })
+  .on("mouseout", () => {
+    // Reset all styles
+    svg.selectAll("text")
+      .style("opacity", 1)
+      .attr("font-weight", null)
+      .attr("font-size", FONT_SIZE);
+    
+    svg.selectAll("path")
+      .style("opacity", 1)
+      .attr("stroke", function() {
+        // Reset link strokes to default
+        return d3.select(this).classed("group-arc") ? d3.select(this).attr("stroke") : colornone;
+      })
+      .attr("stroke-width", function() {
+        // Reset stroke widths
+        return d3.select(this).attr("class") && d3.select(this).attr("class").includes("group-arc") ? 10 : DEFAULT_STROKE_WIDTH;
+      });
+    
+    // Reset group arcs specifically
+    groupData.forEach((group, i) => {
+      svg.select(`.group-arc-${i}`)
+        .attr("stroke-width", 10);
+    });
+    
+    link.style("mix-blend-mode", "multiply");
+  });
+
+legendItems.append("circle")
+  .attr("cx", LEGEND_CIRCLE_RADIUS)
+  .attr("cy", 0)
+  .attr("r", LEGEND_CIRCLE_RADIUS)
+  .attr("fill", (d, i) => groupColors[i % groupColors.length])
+  .attr("stroke", "#333")
+  .attr("stroke-width", 0.5);
+
+legendItems.append("text")
+  .attr("x", LEGEND_TEXT_OFFSET)
+  .attr("y", 0)
+  .attr("dy", "0.35em")
+  .attr("font-size", "12px")
+  .attr("fill", "#333")
+  .text(d => d.label);
+
+document.getElementById("chart").appendChild(svg.node());
 </script>
 </body>
 </html>
-
