@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessing Green Stormwater Infrastructure Research</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .header {
+            color: grey;
+            font: 13px/25.5px var(--sans-serif);
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        .header a {
+            color: #666;
+            text-decoration: none;
+        }
+        .header a:hover {
+            text-decoration: underline;
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 20px 0;
+            color: #333;
+        }
+        .description {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+            max-width: 800px;
+            margin-bottom: 30px;
+        }
+        .chart-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        svg {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="https://d3js.org/">D3</a> › <a href="#">Gallery</a>
+    </div>
+    
+    <h1>Assessing green stormwater infrastructure research and gaps in arid climates</h1>
+    
+    <div class="description">
+        This chart shows relationships among research papers involving green stormwater infrastructure (GSI) and arid environments. 
+        Papers and their corresponding locations, methods, green stormwater infrastructure practice, and their results are shown. 
+        Hover a class to reveal the paper (<b style="color: #f00;">outgoing</b> edges) and relevant information related to the paper 
+        (<b style="color: #00f;">incoming</b> edges).
+    </div>
+    
+    <div class="chart-container">
+        <div id="chart"></div>
+    </div>
+
+    <script>
+        // You need to replace this with your actual JSON data from gsi_data_725-1@1.json
+        // For now, this is a placeholder - the structure should match your JSON file
+        const jsonData = [
+            // Add your actual data here
+            // Example structure based on the original code:
+            // {"name": "Category1_Subcategory1_Item1", "imports": ["Category2_Item2", "Category3_Item3"]},
+            // {"name": "Category1_Subcategory1_Item2", "imports": ["Category2_Item1"]},
+            // etc.
+        ];
+
+        // Color configuration
+        const colorin = "#00f";
+        const colorout = "#f00";
+        const colornone = "#ccc";
+
+        // Hierarchy function - exactly as in original
+        function hierarchy(data, delimiter = "_") {
+            let root;
+            const map = new Map;
+            data.forEach(function find(data) {
+                const {name} = data;
+                if (map.has(name)) return map.get(name);
+                const i = name.lastIndexOf(delimiter);
+                map.set(name, data);
+                if (i >= 0) {
+                    find({name: name.substring(0, i), children: []}).children.push(data);
+                    data.name = name.substring(i + 1);
+                } else {
+                    root = data;
+                }
+                return data;
+            });
+            return root;
+        }
+
+        // ID function - exactly as in original
+        function id(node) {
+            return `${node.parent ? id(node.parent) + "_" : ""}${node.data.name}`;
+        }
+
+        // Bilink function - exactly as in original
+        function bilink(root) {
+            const map = new Map(root.leaves().map(d => [id(d), d]));
+            for (const d of root.leaves()) d.incoming = [], d.outgoing = d.data.imports.map(i => [d, map.get(i)]);
+            for (const d of root.leaves()) for (const o of d.outgoing) o[1].incoming.push(o);
+            return root;
+        }
+
+        // Main chart function - exactly as in original chart_latest
+        function createChart(data) {
+            // Layout configuration
+            const width = 900;
+            const radius = width / 2.8;
+            const RADIUS_PADDING = 50;
+            
+            // Font configuration
+            const FONT_SIZE = 12;
+            const HOVER_FONT_SIZE = 14;
+            
+            // Text positioning configuration
+            const TEXT_OFFSET = 25;
+            const TEXT_VERTICAL_OFFSET = "0.31em";
+            
+            // Curve configuration
+            const CURVE_BETA = 0.75;
+            
+            // Line styling configuration
+            const DEFAULT_STROKE_WIDTH = 1;
+            const HOVER_STROKE_WIDTH = 3;
+            
+            // Legend configuration
+            const LEGEND_ITEM_WIDTH = 120;
+            const LEGEND_HEIGHT = 30;
+            const LEGEND_CIRCLE_RADIUS = 8;
+            const LEGEND_TEXT_OFFSET = 20;
+            const LEGEND_TOP_MARGIN = 20;
+            
+            // Configuration variables for consistent rotation and positioning
+            const ROTATION_DEGREES = 10;
+            const ROTATION_RADIANS = ROTATION_DEGREES * Math.PI / 180;
+            const BASE_ROTATION = Math.PI / 2;
+            const TOTAL_ROTATION = BASE_ROTATION + ROTATION_RADIANS;
+            
+            // Text positioning thresholds (adjusted for rotation)
+            const LEFT_START_ANGLE = Math.PI/2 + ROTATION_RADIANS;
+            const LEFT_END_ANGLE = 3*Math.PI/2 + ROTATION_RADIANS;
+
+            // Define color scheme for different categories
+            const groupColors = ["#3498DB", "#E74C3C", "#2ECC71", "#F39C12", "#9B59B6"];
+            
+            const tree = d3.cluster()
+                .size([2 * Math.PI, radius - RADIUS_PADDING]);
+            const root = tree(bilink(d3.hierarchy(data)
+                .sort((a, b) => d3.ascending(a.height, b.height) || d3.ascending(a.data.name, b.data.name))));
+            
+            const svg = d3.select("#chart")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", width)
+                .attr("viewBox", [-width / 2, -width / 2, width, width])
+                .attr("style", `max-width: 100%; height: auto; font: ${FONT_SIZE}px sans-serif;`);
+            
+            const node = svg.append("g")
+                .selectAll()
+                .data(root.leaves())
+                .join("g")
+                .attr("transform", d => `rotate(${d.x * 180 / Math.PI + ROTATION_DEGREES}) translate(${d.y},0)`)
+                .append("text")
+                .attr("dy", TEXT_VERTICAL_OFFSET)
+                .attr("x", d => (d.x >= LEFT_START_ANGLE && d.x < LEFT_END_ANGLE) ? -TEXT_OFFSET : TEXT_OFFSET)
+                .attr("text-anchor", d => (d.x >= LEFT_START_ANGLE && d.x < LEFT_END_ANGLE) ? "end" : "start")
+                .attr("transform", d => (d.x >= LEFT_START_ANGLE && d.x < LEFT_END_ANGLE) ? "rotate(180)" : null)
+                .text(d => d.data.name)
+                .each(function(d) { d.text = this; })
+                .on("mouseover", overed)
+                .on("mouseout", outed)
+                .call(text => text.append("title").text(d => `${id(d)}\n${d.outgoing.length} outgoing\n${d.incoming.length} incoming`));
+            
+            const line = d3.lineRadial()
+                .curve(d3.curveBundle.beta(CURVE_BETA))
+                .radius(d => d.y)
+                .angle(d => d.x + TOTAL_ROTATION);
+
+            // Group leaf nodes by their top-level category for visual organization
+            const groupedNodes = d3.groups(root.leaves(), d => {
+                // Start with current node
+                let current = d;
+                // Traverse up the hierarchy to find the top-level parent
+                while (current.parent && current.parent !== root) {
+                    current = current.parent;
+                }
+                // Return the top-level category name
+                return current.data.name;
+            });
+
+            // Process grouped nodes to create arc data for category visualization
+            const groupData = groupedNodes.map(([category, nodes]) => {
+                // Extract and sort all angles for nodes in this category
+                const angles = nodes.map(d => d.x).sort(d3.ascending);
+                // Calculate average angle for category label positioning
+                const avgAngle = (angles[0] + angles[angles.length - 1]) / 2;
+                
+                // Return category data object
+                return {
+                    label: category,           // Category name
+                    startAngle: angles[0],     // First node angle
+                    endAngle: angles[angles.length - 1], // Last node angle
+                    avgAngle: avgAngle         // Center angle for sorting
+                };
+            // Sort categories by their average angle for consistent ordering
+            }).sort((a, b) => a.avgAngle - b.avgAngle);
+            
+            // Create visual arcs for each category group
+            groupData.forEach((group, i) => {
+                // Set radius for category arcs (outside the main circle)
+                const labelRadius = radius - 40; // Move arcs outside the circle
+                
+                // Adjust angles by 90 degrees to align with rotated text labels
+                const startAngle = group.startAngle + TOTAL_ROTATION;
+                const endAngle = group.endAngle + TOTAL_ROTATION;
+                
+                // Create D3 arc generator for drawing curved paths
+                const arc = d3.arc()
+                    // Set inner radius (creates a line rather than filled arc)
+                    .innerRadius(labelRadius)
+                    // Set outer radius (same as inner for line effect)
+                    .outerRadius(labelRadius);
+                
+                // Generate SVG path data for the arc
+                const pathData = arc({
+                    startAngle: startAngle,
+                    endAngle: endAngle
+                });
+                
+                // Add the visual arc to the SVG with category-specific color
+                svg.append("path")
+                    .attr("d", pathData)
+                    .attr("stroke", groupColors[i % groupColors.length])
+                    .attr("stroke-width", 10)
+                    .attr("fill", "none");
+            });
+
+            // Apply category colors to text labels
+            svg.selectAll("text")
+                // Filter to only select leaf node text labels
+                .filter(function() { 
+                    return this.parentNode.tagName === 'g'; // Only select leaf text labels
+                })
+                // Set text color based on category
+                .attr("fill", function(d) {
+                    // Find the top-level category for this node
+                    let current = d;
+                    while (current.parent && current.parent !== root) {
+                        current = current.parent;
+                    }
+                    const groupName = current.data.name;
+                    
+                    // Find the corresponding color index for this category
+                    const groupIndex = groupData.findIndex(group => group.label === groupName);
+                    // Apply the category color
+                    return groupColors[groupIndex % groupColors.length];
+                });
+            
+            const link = svg.append("g")
+                .attr("stroke", colornone)
+                .attr("stroke-width", DEFAULT_STROKE_WIDTH)
+                .attr("fill", "none")
+                .selectAll()
+                .data(root.leaves().flatMap(leaf => leaf.outgoing))
+                .join("path")
+                .style("mix-blend-mode", "multiply")
+                .attr("d", ([i, o]) => line(i.path(o)))
+                .each(function(d) { d.path = this; });
+
+            // CREATE LEGEND
+            // Calculate total width needed for all legend items
+            const totalLegendWidth = groupData.length * LEGEND_ITEM_WIDTH;
+            const legendStartX = -totalLegendWidth / 2; // Center the legend horizontally
+            
+            // Create legend container group positioned at top center
+            const legend = svg.append("g")
+                .attr("class", "legend")
+                .attr("transform", `translate(0, ${-width/2 + LEGEND_TOP_MARGIN})`);
+            
+            // Create legend items for each category
+            const legendItems = legend.selectAll(".legend-item")
+                .data(groupData)
+                .join("g")
+                .attr("class", "legend-item")
+                .attr("transform", (d, i) => `translate(${legendStartX + i * LEGEND_ITEM_WIDTH}, 0)`);
+            
+            // Add colored circles for each category
+            legendItems.append("circle")
+                .attr("cx", LEGEND_CIRCLE_RADIUS)
+                .attr("cy", 0)
+                .attr("r", LEGEND_CIRCLE_RADIUS)
+                .attr("fill", (d, i) => groupColors[i % groupColors.length])
+                .attr("stroke", "#333")
+                .attr("stroke-width", 0.5);
+            
+            // Add category labels
+            legendItems.append("text")
+                .attr("x", LEGEND_TEXT_OFFSET)
+                .attr("y", 0)
+                .attr("dy", "0.35em")
+                .attr("font-size", "12px")
+                .attr("fill", "#333")
+                .text(d => d.label);
+            
+            // Add legend interactivity (optional)
+            legendItems
+                .style("cursor", "pointer")
+                .on("mouseover", function(event, d) {
+                    // Highlight all nodes and arcs belonging to this category
+                    d3.select(this).select("circle").attr("stroke-width", 2);
+                    d3.select(this).select("text").attr("font-weight", "bold");
+                    
+                    // Find the corresponding arc and highlight it
+                    const groupIndex = groupData.findIndex(group => group.label === d.label);
+                    svg.selectAll("path")
+                        .filter(function() {
+                            return d3.select(this).attr("stroke") === groupColors[groupIndex % groupColors.length];
+                        })
+                        .attr("stroke-width", 15)
+                        .attr("opacity", 1);
+                })
+                .on("mouseout", function(event, d) {
+                    // Reset styling
+                    d3.select(this).select("circle").attr("stroke-width", 0.5);
+                    d3.select(this).select("text").attr("font-weight", "normal");
+                    
+                    // Reset arc styling
+                    const groupIndex = groupData.findIndex(group => group.label === d.label);
+                    svg.selectAll("path")
+                        .filter(function() {
+                            return d3.select(this).attr("stroke") === groupColors[groupIndex % groupColors.length];
+                        })
+                        .attr("stroke-width", 10)
+                        .attr("opacity", 1);
+                });
+
+            function overed(event, d) {
+                link.style("mix-blend-mode", null);
+                d3.select(this).attr("font-weight", "bold").attr("font-size", HOVER_FONT_SIZE);
+                
+                // Color each incoming link based on its DESTINATION category
+                d.incoming.forEach(linkData => {
+                    const [source, target] = linkData;
+                    
+                    // Find the destination node's category
+                    let current = target;
+                    while (current.parent && current.parent !== root) {
+                        current = current.parent;
+                    }
+                    const groupName = current.data.name;
+                    const groupIndex = groupData.findIndex(group => group.label === groupName);
+                    const categoryColor = groupColors[groupIndex % groupColors.length];
+                    
+                    // Apply the destination category color to this specific link
+                    d3.select(linkData.path).attr("stroke", categoryColor).attr("stroke-width", HOVER_STROKE_WIDTH).raise();
+                });
+                
+                d3.selectAll(d.incoming.map(([d]) => d.text)).attr("font-weight", "bold").attr("font-size", HOVER_FONT_SIZE);
+                
+                // Color each outgoing link based on its destination category
+                d.outgoing.forEach(linkData => {
+                    const [source, target] = linkData;
+                    
+                    // Find the destination node's category
+                    let current = target;
+                    while (current.parent && current.parent !== root) {
+                        current = current.parent;
+                    }
+                    const groupName = current.data.name;
+                    const groupIndex = groupData.findIndex(group => group.label === groupName);
+                    const categoryColor = groupColors[groupIndex % groupColors.length];
+                    
+                    // Apply the destination category color to this specific link
+                    d3.select(linkData.path).attr("stroke", categoryColor).attr("stroke-width", HOVER_STROKE_WIDTH).raise();
+                });
+                
+                d3.selectAll(d.outgoing.map(([, d]) => d.text)).attr("font-weight", "bold").attr("font-size", HOVER_FONT_SIZE);
+            }
+            
+            function outed(event, d) {
+                link.style("mix-blend-mode", "multiply");
+                d3.select(this).attr("font-weight", null).attr("font-size", FONT_SIZE);
+                d3.selectAll(d.incoming.map(d => d.path)).attr("stroke", null).attr("stroke-width", DEFAULT_STROKE_WIDTH);
+                d3.selectAll(d.incoming.map(([d]) => d.text)).attr("font-weight", null).attr("font-size", FONT_SIZE);
+                d3.selectAll(d.outgoing.map(d => d.path)).attr("stroke", null).attr("stroke-width", DEFAULT_STROKE_WIDTH);
+                d3.selectAll(d.outgoing.map(([, d]) => d.text)).attr("font-weight", null).attr("font-size", FONT_SIZE);
+            }
+
+            return svg.node();
+        }
+
+        // Initialize the chart
+        async function init() {
+            try {
+                // Try to load the JSON file - you'll need to place your gsi_data_725-1@1.json in the same directory
+                const response = await fetch('gsi_data_725-1@1.json');
+                const jsonData = await response.json();
+                
+                // Process the data through hierarchy function
+                const data = hierarchy(jsonData);
+                
+                // Create the chart
+                createChart(data);
+            } catch (error) {
+                console.error('Error loading data file:', error);
+                console.log('Please ensure gsi_data_725-1@1.json is in the same directory as this HTML file');
+                
+                // Show error message to user
+                document.getElementById('chart').innerHTML = `
+                    <div style="text-align: center; padding: 50px; color: #666;">
+                        <h3>Data file not found</h3>
+                        <p>Please place your <code>gsi_data_725-1@1.json</code> file in the same directory as this HTML file.</p>
+                        <p>Expected data format: Array of objects with "name" and "imports" properties.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Start when page loads
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
