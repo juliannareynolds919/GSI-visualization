@@ -24,21 +24,20 @@
 <div id = "chart"></div>
   
 <script>
-const width = 900;
-const radius = width / 2.5;
-const RADIUS_PADDING = 50;
-const FONT_SIZE = 12;
-const HOVER_FONT_SIZE = 14;
-const TEXT_OFFSET = 25;
+const width = 600;
+const radius = width / 2.8;
+const RADIUS_PADDING = 40; // Reduced from 50
+const FONT_SIZE = 10; // Reduced from 12
+const HOVER_FONT_SIZE = 12; // Reduced from 14
+const TEXT_OFFSET = 20; // Reduced from 25
 const TEXT_VERTICAL_OFFSET = "0.31em";
 const CURVE_BETA = 0.75;
 const DEFAULT_STROKE_WIDTH = 1;
 const HOVER_STROKE_WIDTH = 3;
-const LEGEND_ITEM_WIDTH = 120;
-const LEGEND_CIRCLE_RADIUS = 8;
-const LEGEND_TEXT_OFFSET = 20;
-const LEGEND_TOP_MARGIN = 20;
-const ROTATION_DEGREES = 10;
+const LEGEND_ITEM_WIDTH = 100; // Reduced from 120
+const LEGEND_CIRCLE_RADIUS = 6; // Reduced from 8
+const LEGEND_TEXT_OFFSET = 16; // Reduced from 20
+const LEGEND_TOP_MARGIN = 15; // Reduced from 20
 const ROTATION_RADIANS = ROTATION_DEGREES * Math.PI / 180;
 const BASE_ROTATION = Math.PI / 2;
 const TOTAL_ROTATION = BASE_ROTATION + ROTATION_RADIANS;
@@ -264,6 +263,7 @@ fetch("gsi-data.json")
 </script>
 </body>
 </html>
+
 
 
 
