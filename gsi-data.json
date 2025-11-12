@@ -20,6 +20,81 @@
     "imports": []
   },
   {
+    "name": "flare_Location_Italy_Sicily_Palermo",
+    "size": 3938,
+    "imports": []
+  },
+  {
+    "name": "flare_Location_Mexico_Hidalgo_Mineral_de_la_Reforma",
+    "size": 3938,
+    "imports": []
+  },
+  {
+    "name": "flare_Location_Pakistan_Larkana",
+    "size": 3938,
+    "imports": []
+  },
+  {
+    "name": "flare_Location_Spain_Alicante_Alicante",
+    "size": 3938,
+    "imports": []
+  },
+  {
+    "name": "flare_Location_USA_Arizona",
+    "size": 3938,
+    "imports": []
+  },
+  {
+    "name": "flare_Location_USA_Arizona_Phoenix",
+    "size": 3938,
+    "imports": []
+  },
+  {
+    "name": "flare_Location_USA_Arizona_Sierra_Vista",
+    "size": 3938,
+    "imports": []
+  },
+  {
+    "name": "flare_Location_USA_Arizona_Tempe",
+    "size": 3938,
+    "imports": []
+  },
+  {
+    "name": "flare_Location_USA_Arizona_Tuscon",
+    "size": 3938,
+    "imports": []
+  },
+  {
+    "name": "flare_Location_USA_California",
+    "size": 3938,
+    "imports": []
+  },
+  {
+    "name": "flare_Location_USA_California_Irvine",
+    "size": 3938,
+    "imports": []
+  },
+  {
+    "name": "flare_Location_USA_California_Los_Angeles",
+    "size": 3938,
+    "imports": []
+  },
+  {
+    "name": "flare_Location_USA_Nevada",
+    "size": 3938,
+    "imports": []
+  },
+  {
+    "name": "flare_Location_USA_New_Mexico_Albuquerque",
+    "size": 3938,
+    "imports": []
+  },
+  {
+    "name": "flare_Location_USA_Utah_Salt_Lake_City",
+    "size": 3938,
+    "imports": []
+  },
+  {
     "name": "flare_Methodology_Empirical",
     "size": 3938,
     "imports": []
@@ -34,6 +109,7 @@
     "size": 3938,
     "imports": [
       "flare_GSI Practice_Rainwater Harvesting",
+      "flare_Location_Pakistan_Larkana",
       "flare_Methodology_Modeled",
       "flare_Results_Runoff Volume"
     ]
@@ -43,6 +119,7 @@
     "size": 3938,
     "imports": [
       "flare_GSI Practice_Retention Basin",
+      "flare_Location_USA_California_Los_Angeles",
       "flare_Methodology_Modeled",
       "flare_Results_Runoff Volume"
     ]
@@ -53,6 +130,7 @@
     "imports": [
       "flare_GSI Practice_Rainwater Harvesting",
       "flare_GSI Practice_Retention Basin",
+      "flare_Location_Mexico_Hidalgo_Mineral_de_la_Reforma",
       "flare_Methodology_Modeled",
       "flare_Results_Runoff Volume"
     ]
@@ -63,6 +141,7 @@
     "imports": [
       "flare_GSI Practice_Green Roofs",
       "flare_GSI Practice_Retention Basin",
+      "flare_Location_USA_Utah_Salt_Lake_City",
       "flare_Methodology_Modeled",
       "flare_Results_Infiltration Volume",
       "flare_Results_Runoff Volume",
@@ -74,6 +153,7 @@
     "size": 3938,
     "imports": [
       "flare_GSI Practice_Retention Basin",
+      "flare_Location_Spain_Alicante_Alicante",
       "flare_Methodology_Empirical",
       "flare_Results_Storage",
       "flare_Results_Water Quality"
@@ -87,6 +167,7 @@
       "flare_GSI Practice_Permeable Pavement",
       "flare_GSI Practice_Rainwater Harvesting",
       "flare_GSI Practice_Retention Basin",
+      "flare_Location_USA_Arizona_Tempe",
       "flare_Methodology_Modeled",
       "flare_Results_Infiltration Volume",
       "flare_Results_Peak Flow",
@@ -101,6 +182,7 @@
       "flare_GSI Practice_Permeable Pavement",
       "flare_GSI Practice_Rainwater Harvesting",
       "flare_GSI Practice_Retention Basin",
+      "flare_Location_USA_Arizona_Sierra_Vista",
       "flare_Methodology_Modeled",
       "flare_Results_Infiltration Volume",
       "flare_Results_Peak Flow",
@@ -114,6 +196,7 @@
     "imports": [
       "flare_GSI Practice_Rainwater Harvesting",
       "flare_GSI Practice_Retention Basin",
+      "flare_Location_USA_Arizona_Tuscon",
       "flare_Methodology_Modeled",
       "flare_Results_Runoff Volume",
       "flare_Results_Storage"
@@ -124,6 +207,7 @@
     "size": 3938,
     "imports": [
       "flare_GSI Practice_Retention Basin",
+      "flare_Location_USA_Arizona_Phoenix",
       "flare_Methodology_Empirical"
     ]
   },
@@ -132,6 +216,7 @@
     "size": 3938,
     "imports": [
       "flare_GSI Practice_Rainwater Harvesting",
+      "flare_Location_USA_California_Irvine",
       "flare_Methodology_Modeled",
       "flare_Results_Runoff Volume",
       "flare_Results_Storage"
@@ -142,6 +227,7 @@
     "size": 3938,
     "imports": [
       "flare_GSI Practice_Retention Basin",
+      "flare_Location_USA_California",
       "flare_Methodology_Modeled",
       "flare_Results_Runoff Volume"
     ]
@@ -151,6 +237,7 @@
     "size": 3938,
     "imports": [
       "flare_GSI Practice_Green Roofs",
+      "flare_Location_Italy_Sicily_Palermo",
       "flare_Methodology_Empirical",
       "flare_Results_Runoff Volume",
       "flare_Results_Storage"
@@ -162,6 +249,7 @@
     "imports": [
       "flare_GSI Practice_Permeable Pavement",
       "flare_GSI Practice_Retention Basin",
+      "flare_Location_USA_California",
       "flare_Methodology_Modeled",
       "flare_Results_Peak Flow",
       "flare_Results_Runoff Volume",
@@ -174,6 +262,7 @@
     "imports": [
       "flare_GSI Practice_Rainwater Harvesting",
       "flare_GSI Practice_Retention Basin",
+      "flare_Location_USA_Arizona_Sierra_Vista",
       "flare_Methodology_Modeled",
       "flare_Results_Runoff Volume"
     ]
@@ -183,6 +272,7 @@
     "size": 3938,
     "imports": [
       "flare_GSI Practice_Rainwater Harvesting",
+      "flare_Location_USA_Nevada",
       "flare_Methodology_Modeled",
       "flare_Results_Runoff Volume",
       "flare_Results_Storage"
@@ -195,6 +285,7 @@
       "flare_GSI Practice_Permeable Pavement",
       "flare_GSI Practice_Rainwater Harvesting",
       "flare_GSI Practice_Retention Basin",
+      "flare_Location_USA_Arizona_Phoenix",
       "flare_Methodology_Modeled",
       "flare_Results_Infiltration Volume",
       "flare_Results_Peak Flow",
@@ -207,6 +298,7 @@
     "imports": [
       "flare_GSI Practice_Rainwater Harvesting",
       "flare_GSI Practice_Retention Basin",
+      "flare_Location_USA_Utah_Salt_Lake_City",
       "flare_Methodology_Modeled",
       "flare_Results_Runoff Volume",
       "flare_Results_Storage"
