@@ -60,7 +60,7 @@
     "imports": []
   },
   {
-    "name": "flare_Location_USA_Arizona_Tuscon",
+    "name": "flare_Location_USA_Arizona_Tucson",
     "size": 3938,
     "imports": []
   },
@@ -182,7 +182,7 @@
       "flare_GSI Practice_Permeable Pavement",
       "flare_GSI Practice_Rainwater Harvesting",
       "flare_GSI Practice_Retention Basin",
-      "flare_Location_USA_Arizona_Sierra_Vista",
+      "flare_Location_USA_Arizona_Sierra Vista",
       "flare_Methodology_Modeled",
       "flare_Results_Infiltration Volume",
       "flare_Results_Peak Flow",
@@ -196,7 +196,7 @@
     "imports": [
       "flare_GSI Practice_Rainwater Harvesting",
       "flare_GSI Practice_Retention Basin",
-      "flare_Location_USA_Arizona_Tuscon",
+      "flare_Location_USA_Arizona_Tucson",
       "flare_Methodology_Modeled",
       "flare_Results_Runoff Volume",
       "flare_Results_Storage"
