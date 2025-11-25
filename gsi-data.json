@@ -20,47 +20,47 @@
     "imports": []
   },
   {
-    "name": "flare_Location_Italy_Sicily",
+    "name": "flare_Location_Sicily, Italy",
     "size": 3938,
     "imports": []
   },
   {
-    "name": "flare_Location_Mexico_Hidalgo",
+    "name": "flare_Location_Hidalgo, Mexico",
     "size": 3938,
     "imports": []
   },
   {
-    "name": "flare_Location_Pakistan_Sindh",
+    "name": "flare_Location_Sindh, Pakistan",
     "size": 3938,
     "imports": []
   },
   {
-    "name": "flare_Location_Spain_Alicante",
+    "name": "flare_Location_Alicante, Spain",
     "size": 3938,
     "imports": []
   },
   {
-    "name": "flare_Location_USA_Arizona",
+    "name": "flare_Location_Arizona, USA",
     "size": 3938,
     "imports": []
   },
   {
-    "name": "flare_Location_USA_California",
+    "name": "flare_Location_California, USA",
     "size": 3938,
     "imports": []
   },
   {
-    "name": "flare_Location_USA_Nevada",
+    "name": "flare_Location_Nevada, USA",
     "size": 3938,
     "imports": []
   },
   {
-    "name": "flare_Location_USA_New Mexico",
+    "name": "flare_Location_New Mexico, USA",
     "size": 3938,
     "imports": []
   },
   {
-    "name": "flare_Location_USA_Utah",
+    "name": "flare_Location_Utah, USA",
     "size": 3938,
     "imports": []
   },
@@ -79,7 +79,7 @@
     "size": 3938,
     "imports": [
       "flare_GSI Practice_Rainwater Harvesting",
-      "flare_Location_Pakistan_Sindh",
+      "flare_Location_Sindh, Pakistan",
       "flare_Methodology_Modeled",
       "flare_Results_Runoff Volume"
     ]
@@ -89,7 +89,7 @@
     "size": 3938,
     "imports": [
       "flare_GSI Practice_Retention Basin",
-      "flare_Location_USA_California",
+      "flare_Location_California, USA",
       "flare_Methodology_Modeled",
       "flare_Results_Runoff Volume"
     ]
@@ -100,7 +100,7 @@
     "imports": [
       "flare_GSI Practice_Rainwater Harvesting",
       "flare_GSI Practice_Retention Basin",
-      "flare_Location_Mexico_Hidalgo",
+      "flare_Location_Hidalgo, Mexico",
       "flare_Methodology_Modeled",
       "flare_Results_Runoff Volume"
     ]
@@ -111,7 +111,7 @@
     "imports": [
       "flare_GSI Practice_Green Roofs",
       "flare_GSI Practice_Retention Basin",
-      "flare_Location_USA_Utah",
+      "flare_Location_Utah, USA",
       "flare_Methodology_Modeled",
       "flare_Results_Infiltration Volume",
       "flare_Results_Runoff Volume",
@@ -123,7 +123,7 @@
     "size": 3938,
     "imports": [
       "flare_GSI Practice_Retention Basin",
-      "flare_Location_Spain_Alicante",
+      "flare_Location_Alicante, Spain",
       "flare_Methodology_Empirical",
       "flare_Results_Storage",
       "flare_Results_Water Quality"
@@ -137,7 +137,7 @@
       "flare_GSI Practice_Permeable Pavement",
       "flare_GSI Practice_Rainwater Harvesting",
       "flare_GSI Practice_Retention Basin",
-      "flare_Location_USA_Arizona",
+      "flare_Location_Arizona, USA",
       "flare_Methodology_Modeled",
       "flare_Results_Infiltration Volume",
       "flare_Results_Peak Flow",
@@ -152,7 +152,7 @@
       "flare_GSI Practice_Permeable Pavement",
       "flare_GSI Practice_Rainwater Harvesting",
       "flare_GSI Practice_Retention Basin",
-      "flare_Location_USA_Arizona",
+      "flare_Location_Arizona, USA",
       "flare_Methodology_Modeled",
       "flare_Results_Infiltration Volume",
       "flare_Results_Peak Flow",
@@ -166,7 +166,7 @@
     "imports": [
       "flare_GSI Practice_Rainwater Harvesting",
       "flare_GSI Practice_Retention Basin",
-      "flare_Location_USA_Arizona",
+      "flare_Location_Arizona, USA",
       "flare_Methodology_Modeled",
       "flare_Results_Runoff Volume",
       "flare_Results_Storage"
@@ -177,7 +177,7 @@
     "size": 3938,
     "imports": [
       "flare_GSI Practice_Retention Basin",
-      "flare_Location_USA_Arizona",
+      "flare_Location_Arizona, USA",
       "flare_Methodology_Empirical"
     ]
   },
@@ -186,7 +186,7 @@
     "size": 3938,
     "imports": [
       "flare_GSI Practice_Rainwater Harvesting",
-      "flare_Location_USA_California",
+      "flare_Location_California, USA",
       "flare_Methodology_Modeled",
       "flare_Results_Runoff Volume",
       "flare_Results_Storage"
@@ -197,7 +197,7 @@
     "size": 3938,
     "imports": [
       "flare_GSI Practice_Retention Basin",
-      "flare_Location_USA_California",
+      "flare_Location_California, USA",
       "flare_Methodology_Modeled",
       "flare_Results_Runoff Volume"
     ]
@@ -207,7 +207,7 @@
     "size": 3938,
     "imports": [
       "flare_GSI Practice_Green Roofs",
-      "flare_Location_Italy_Sicily",
+      "flare_Location_Sicily, Italy",
       "flare_Methodology_Empirical",
       "flare_Results_Runoff Volume",
       "flare_Results_Storage"
@@ -219,7 +219,7 @@
     "imports": [
       "flare_GSI Practice_Permeable Pavement",
       "flare_GSI Practice_Retention Basin",
-      "flare_Location_USA_California",
+      "flare_Location_California, USA",
       "flare_Methodology_Modeled",
       "flare_Results_Peak Flow",
       "flare_Results_Runoff Volume",
@@ -232,7 +232,7 @@
     "imports": [
       "flare_GSI Practice_Rainwater Harvesting",
       "flare_GSI Practice_Retention Basin",
-      "flare_Location_USA_Arizona",
+      "flare_Location_Arizona, USA",
       "flare_Methodology_Modeled",
       "flare_Results_Runoff Volume"
     ]
@@ -242,9 +242,9 @@
     "size": 3938,
     "imports": [
       "flare_GSI Practice_Rainwater Harvesting",
-      "flare_Location_USA_Arizona",
-      "flare_Location_USA_New Mexico",
-      "flare_Location_USA_Nevada",
+      "flare_Location_Arizona, USA",
+      "flare_Location_New Mexico, USA",
+      "flare_Location_Nevada, USA",
       "flare_Methodology_Modeled",
       "flare_Results_Runoff Volume",
       "flare_Results_Storage"
@@ -257,7 +257,7 @@
       "flare_GSI Practice_Permeable Pavement",
       "flare_GSI Practice_Rainwater Harvesting",
       "flare_GSI Practice_Retention Basin",
-      "flare_Location_USA_Arizona",
+      "flare_Location_Arizona, USA",
       "flare_Methodology_Modeled",
       "flare_Results_Infiltration Volume",
       "flare_Results_Peak Flow",
@@ -270,7 +270,7 @@
     "imports": [
       "flare_GSI Practice_Rainwater Harvesting",
       "flare_GSI Practice_Retention Basin",
-      "flare_Location_USA_Utah",
+      "flare_Location_Utah, USA",
       "flare_Methodology_Modeled",
       "flare_Results_Runoff Volume",
       "flare_Results_Storage"
