@@ -81,7 +81,7 @@ function reversePaperOrder(root) {
 /* ---------------------------------------------------
    LOAD DATA & BUILD CHART
 --------------------------------------------------- */
-fetch("https://raw.githubusercontent.com/juliannareynolds919/GSI-visualization/refs/heads/main/gsi-data.json")
+fetch("data/gsi-data.json")
     .then(res => res.json())
     .then(data => {
 

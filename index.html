@@ -17,14 +17,127 @@
 
   <!-- Styles -->
   <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    /* Modal overlay */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2rem;
+      max-width: 560px;
+      width: 90%;
+      position: relative;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--text-primary);
+    }
+
+    .modal h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .modal p {
+      margin-bottom: 0.75rem;
+      color: var(--text-secondary);
+    }
+
+    .modal .modal-section {
+      margin-bottom: 1.25rem;
+    }
+
+    .modal .modal-section strong {
+      color: var(--text-primary);
+      display: block;
+      margin-bottom: 0.25rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .modal ul {
+      padding-left: 1.1rem;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .modal ul li {
+      margin-bottom: 0.4rem;
+    }
+
+    .modal a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .modal a:hover {
+      text-decoration: underline;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      color: var(--text-primary);
+    }
+
+    /* About button in header */
+    .about-btn {
+      margin-left: auto;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.3rem 0.8rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .about-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+  </style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="header-inner">
-    <h1 class="site-title">Assessing Green Stormwater Infrastructure Research in Arid Climates</h1>
-  </div>
-</header>
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="site-title">Assessing Green Stormwater Infrastructure Research in Arid Climates</h1>
+    </div>
+    <button class="about-btn" id="about-btn">About</button>
+  </header>
 
   <main class="split-container">
     <div class="panel" id="chart-panel">
@@ -40,8 +153,62 @@
     </div>
   </main>
 
+  <!-- About Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <button class="modal-close" id="modal-close">✕</button>
+      <h2>About this visualization</h2>
+
+      <div class="modal-section">
+        <p>This interactive dashboard accompanies a systematic literature review of green stormwater infrastructure (GSI) research in arid and semi-arid climates, conducted as a Master of Science capstone project in Geographic Information Systems Technology at the University of Arizona (2025). This work was supported by the <a href="https://ccass.arizona.edu/atur" target="_blank">Arizona Tri-University Recharge and Water Reliability Project (ATUR)</a>.</p>
+      </div>
+
+      <div class="modal-section">
+        <strong>Credits</strong>
+        Research: Julianna Reynolds<br/>
+        Visualization development: Julianna Reynolds &amp; Yoga Korgaonkar<br/>
+        <a href="http://hdl.handle.net/10150/678098" target="_blank">Full report — University of Arizona Campus Repository</a>
+      </div>
+
+      <div class="modal-section">
+        <strong>How to use</strong>
+        <ul>
+          <li><b>Relationship Explorer</b> — hover over any node to highlight its connections. Papers connect to their location, methodology, GSI practice, and results.</li>
+          <li><b>Study Locations</b> — hover over a map marker to highlight the corresponding paper in the chart. Click a marker to see paper details including a DOI link.</li>
+          <li>Drag the center divider to resize the two panels.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
   <script src="js/chart.js"></script>
   <script src="js/map.js"></script>
+
+  <script>
+    const aboutBtn = document.getElementById('about-btn');
+    const modalOverlay = document.getElementById('modal-overlay');
+    const modalClose = document.getElementById('modal-close');
+
+    aboutBtn.addEventListener('click', () => {
+      modalOverlay.classList.add('active');
+    });
+
+    modalClose.addEventListener('click', () => {
+      modalOverlay.classList.remove('active');
+    });
+
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) {
+        modalOverlay.classList.remove('active');
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        modalOverlay.classList.remove('active');
+      }
+    });
+  </script>
 
 </body>
 </html>
