@@ -27,7 +27,6 @@ const GLOBAL_ROTATION = Math.PI / 2 + ROTATION_RADIANS;
 const groupColors = ["#F39C12", "#E74C3C", "#9B59B6", "#2ECC71", "#3498DB"];
 const colornone = "#ccc";
 
-// Shared state for chart-map linking
 window.gsiChart = {
     highlightByPaper: null,
     clearHighlights: null
@@ -97,9 +96,6 @@ fetch("https://raw.githubusercontent.com/juliannareynolds919/GSI-visualization/r
         reversePaperOrder(hierarchyRoot);
         const root = tree(bilink(hierarchyRoot));
 
-        /* ---------------------------------------------------
-           SVG
-        --------------------------------------------------- */
         const svg = d3.create("svg")
             .attr("width", width)
             .attr("height", width)
@@ -111,9 +107,6 @@ fetch("https://raw.githubusercontent.com/juliannareynolds919/GSI-visualization/r
             .radius(d => d.y)
             .angle(d => d.x + GLOBAL_ROTATION);
 
-        /* ---------------------------------------------------
-           GROUPING FOR CATEGORY ARCS
-        --------------------------------------------------- */
         const groupedNodes = d3.groups(root.leaves(), d => {
             let current = d;
             while (current.parent && current.parent !== root)
@@ -129,14 +122,10 @@ fetch("https://raw.githubusercontent.com/juliannareynolds919/GSI-visualization/r
         const desiredOrder = ["Paper", "Methodology", "Location", "GSI Practice", "Results"];
         groupData.sort((a, b) => desiredOrder.indexOf(a.label) - desiredOrder.indexOf(b.label));
 
-        /* ---------------------------------------------------
-           CATEGORY ARCS
-        --------------------------------------------------- */
         groupData.forEach((group, i) => {
             const arc = d3.arc()
                 .innerRadius(radius - 40)
                 .outerRadius(radius - 40);
-
             svg.append("path")
                 .attr("d", arc({
                     startAngle: group.startAngle + GLOBAL_ROTATION,
@@ -147,9 +136,6 @@ fetch("https://raw.githubusercontent.com/juliannareynolds919/GSI-visualization/r
                 .attr("fill", "none");
         });
 
-        /* ---------------------------------------------------
-           LINKS
-        --------------------------------------------------- */
         const link = svg.append("g")
             .attr("stroke", colornone)
             .attr("stroke-width", DEFAULT_STROKE_WIDTH)
@@ -164,7 +150,7 @@ fetch("https://raw.githubusercontent.com/juliannareynolds919/GSI-visualization/r
         /* ---------------------------------------------------
            HOVER HANDLERS
         --------------------------------------------------- */
-        function overed(event, d) {
+        function overed(event, d, skipMap = false) {
             link.style("mix-blend-mode", null);
             d3.select(this).attr("font-weight", "bold").attr("font-size", HOVER_FONT_SIZE);
 
@@ -188,30 +174,25 @@ fetch("https://raw.githubusercontent.com/juliannareynolds919/GSI-visualization/r
                 if (target.text) d3.select(target.text).attr("font-weight", "bold").attr("font-size", HOVER_FONT_SIZE);
             });
 
-            // Notify map based on category
-            if (window.gsiMap) {
+            if (window.gsiMap && !skipMap) {
                 let cur = d;
                 while (cur.parent && cur.parent !== root) cur = cur.parent;
                 const category = cur.data.name;
-
-                if (category === "Location") window.gsiMap.highlightByLocation(d.data.name);
-                if (category === "Paper") window.gsiMap.highlightByPaper(d.data.name);
-                if (category === "Methodology") window.gsiMap.highlightByMethodology(d.data.name);
+                if (category === "Location")     window.gsiMap.highlightByLocation(d.data.name);
+                if (category === "Paper")        window.gsiMap.highlightByPaper(d.data.name);
+                if (category === "Methodology")  window.gsiMap.highlightByMethodology(d.data.name);
                 if (category === "GSI Practice") window.gsiMap.highlightByPractice(d.data.name);
-                if (category === "Results") window.gsiMap.highlightByResult(d.data.name);
+                if (category === "Results")      window.gsiMap.highlightByResult(d.data.name);
             }
         }
 
         function outed(event, d) {
             link.style("mix-blend-mode", "multiply");
             d3.select(this).attr("font-weight", null).attr("font-size", FONT_SIZE);
-
             d3.selectAll(d.incoming.map(ld => ld.path)).attr("stroke", colornone).attr("stroke-width", DEFAULT_STROKE_WIDTH);
             d3.selectAll(d.outgoing.map(ld => ld.path)).attr("stroke", colornone).attr("stroke-width", DEFAULT_STROKE_WIDTH);
             d3.selectAll(d.incoming.map(ld => ld[0].text)).attr("font-weight", null).attr("font-size", FONT_SIZE);
             d3.selectAll(d.outgoing.map(ld => ld[1].text)).attr("font-weight", null).attr("font-size", FONT_SIZE);
-
-            // Reset map highlights
             if (window.gsiMap && window.gsiMap.clearHighlights) {
                 window.gsiMap.clearHighlights();
             }
@@ -292,7 +273,7 @@ fetch("https://raw.githubusercontent.com/juliannareynolds919/GSI-visualization/r
         document.getElementById("chart").appendChild(svg.node());
 
         /* ---------------------------------------------------
-           EXPOSE highlightByPaper FOR MAP → CHART LINKING
+           MAP → CHART LINKING API
         --------------------------------------------------- */
         window.gsiChart.clearHighlights = function () {
             root.leaves().forEach(d => {
@@ -306,7 +287,7 @@ fetch("https://raw.githubusercontent.com/juliannareynolds919/GSI-visualization/r
                 let cur = d;
                 while (cur.parent && cur.parent !== root) cur = cur.parent;
                 if (cur.data.name === "Paper" && d.data.name === citation) {
-                    overed.call(d.text, null, d);
+                    overed.call(d.text, null, d, true);
                 }
             });
         };

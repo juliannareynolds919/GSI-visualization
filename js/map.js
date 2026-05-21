@@ -2,14 +2,13 @@
    map.js — Leaflet Map with Chart Linking
    ============================================================ */
 
-// Location name lookup — matches gsi-data.json location names to GeoJSON LOCATION field
 const LOCATION_LOOKUP = {
-    "Arizona, USA": ["Arizona"],
+    "Arizona, USA":    ["Arizona"],
     "California, USA": ["California"],
-    "Nevada, USA": ["Nevada"],
+    "Nevada, USA":     ["Nevada"],
     "New Mexico, USA": ["New Mexico"],
-    "Utah, USA": ["Utah"],
-    "Sicily, Italy": ["Sicily"],
+    "Utah, USA":       ["Utah"],
+    "Sicily, Italy":   ["Sicily"],
     "Hidalgo, Mexico": ["Hidalgo"],
     "Sindh, Pakistan": ["Sindh"],
     "Alicante, Spain": ["Alicante"]
@@ -35,7 +34,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
 }).addTo(map);
 
 /* ---------------------------------------------------
-   LOAD GEOJSON & ADD MARKERS
+   MARKERS
 --------------------------------------------------- */
 let allMarkers = [];
 
@@ -44,14 +43,14 @@ function makeMarkerIcon(color, highlighted = false) {
     return L.divIcon({
         className: "gsi-marker" + (highlighted ? " highlighted" : ""),
         html: `<div style="
-      width:${size}px;
-      height:${size}px;
-      background:${color};
-      border-radius:50%;
-      border:2px solid rgba(0,0,0,${highlighted ? 0.4 : 0.15});
-      box-shadow:none;
-      transition: all 0.2s;
-    "></div>`,
+            width:${size}px;
+            height:${size}px;
+            background:${color};
+            border-radius:50%;
+            border:2px solid rgba(0,0,0,${highlighted ? 0.4 : 0.15});
+            box-shadow:none;
+            transition: all 0.2s;
+        "></div>`,
         iconSize: [size, size],
         iconAnchor: [size / 2, size / 2],
         popupAnchor: [0, -(size / 2 + 4)]
@@ -72,48 +71,53 @@ fetch("data/gsi_literature_locations.json")
                 icon: makeMarkerIcon(DEFAULT_MARKER_COLOR)
             });
 
-            // Build popup content
             const gsiPractices = [
-                props.GREEN_ROOFS ? "Green Roofs" : null,
-                props.PERMEABLE_PAVEMENT ? "Permeable Pavement" : null,
+                props.GREEN_ROOFS          ? "Green Roofs" : null,
+                props.PERMEABLE_PAVEMENT   ? "Permeable Pavement" : null,
                 props.RAINWATER_HARVESTING ? "Rainwater Harvesting" : null,
-                props.RETENTION_BASIN ? "Retention Basin" : null
+                props.RETENTION_BASIN      ? "Retention Basin" : null
             ].filter(Boolean);
 
             const results = [
                 props.INFILTRATION_VOLUME ? "Infiltration Volume" : null,
-                props.PEAK_FLOW ? "Peak Flow" : null,
-                props.RUNOFF_VOLUME ? "Runoff Volume" : null,
-                props.STORAGE ? "Storage" : null,
-                props.WATER_QUALITY ? "Water Quality" : null
+                props.PEAK_FLOW           ? "Peak Flow" : null,
+                props.RUNOFF_VOLUME       ? "Runoff Volume" : null,
+                props.STORAGE             ? "Storage" : null,
+                props.WATER_QUALITY       ? "Water Quality" : null
             ].filter(Boolean);
 
             const popupHtml = `
-        <strong>${props.CITATION}</strong>
-        <div style="font-size:0.8rem; font-style:italic; color:var(--text-secondary); margin-bottom:6px;">${props.TITLE}</div>
-        <div class="popup-meta">
-          <span style="color:#9B59B6">Location:</span> ${props.CITY ? props.CITY + ", " : ""}${props.COUNTRY || ""}<br/>
-          <span style="color:#E74C3C">Methodology:</span> ${props.METHODOLOGY || "—"}<br/>
-          <span style="color:#2ECC71">GSI Practice:</span> ${gsiPractices.length ? gsiPractices.join(", ") : "—"}<br/>
-          <span style="color:#3498DB">Results:</span> ${results.length ? results.join(", ") : "—"}<br/>
-          ${props.DOI ? `<span style="color:var(--text-secondary)">DOI:</span> <a href="https://doi.org/${props.DOI.trim()}" target="_blank" style="color:var(--accent); font-size:0.8rem;">${props.DOI.trim()}</a>` : ""}
-        </div>
-      `;
+                <strong>${props.CITATION}</strong>
+                <div style="font-size:0.8rem; font-style:italic; color:var(--text-secondary); margin-bottom:6px;">${props.TITLE}</div>
+                <div class="popup-meta">
+                    <span style="color:#9B59B6">Location:</span> ${props.CITY ? props.CITY + ", " : ""}${props.COUNTRY || ""}<br/>
+                    <span style="color:#E74C3C">Methodology:</span> ${props.METHODOLOGY || "—"}<br/>
+                    <span style="color:#2ECC71">GSI Practice:</span> ${gsiPractices.length ? gsiPractices.join(", ") : "—"}<br/>
+                    <span style="color:#3498DB">Results:</span> ${results.length ? results.join(", ") : "—"}<br/>
+                    ${props.DOI ? `<span style="color:var(--text-secondary)">DOI:</span> <a href="https://doi.org/${props.DOI.trim()}" target="_blank" style="color:var(--accent); font-size:0.8rem;">${props.DOI.trim()}</a>` : ""}
+                </div>
+            `;
 
             marker.bindPopup(popupHtml, { maxWidth: 280 });
 
-            // Store metadata on marker for linking
-            marker._gsiLocation = props.LOCATION;
-            marker._gsiCitation = props.CITATION;
+            marker._gsiLocation    = props.LOCATION;
+            marker._gsiCitation    = props.CITATION;
             marker._gsiMethodology = props.METHODOLOGY;
-            marker._gsiPractices = gsiPractices;
-            marker._gsiResults = results;
-            marker._gsiColor = DEFAULT_MARKER_COLOR;
+            marker._gsiPractices   = gsiPractices;
+            marker._gsiResults     = results;
+            marker._gsiColor       = DEFAULT_MARKER_COLOR;
 
-            // Map click → highlight chart
-            marker.on('click', function () {
+            // Map hover → highlight chart
+            marker.on('mouseover', function () {
+                console.log('hovering:', props.CITATION);
                 if (window.gsiChart && window.gsiChart.highlightByPaper) {
                     window.gsiChart.highlightByPaper(props.CITATION);
+                }
+            });
+
+            marker.on('mouseout', function () {
+                if (window.gsiChart && window.gsiChart.clearHighlights) {
+                    window.gsiChart.clearHighlights();
                 }
             });
 
@@ -121,7 +125,6 @@ fetch("data/gsi_literature_locations.json")
             allMarkers.push(marker);
         });
 
-        // Fit map to markers
         if (allMarkers.length > 0) {
             const group = L.featureGroup(allMarkers);
             map.fitBounds(group.getBounds().pad(0.15));
@@ -238,10 +241,4 @@ document.addEventListener("mouseup", () => {
         document.body.style.userSelect = "";
         map.invalidateSize();
     }
-});
-
-map.on('click', function() {
-  if (window.gsiChart && window.gsiChart.clearHighlights) {
-    window.gsiChart.clearHighlights();
-  }
 });
