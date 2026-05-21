@@ -15,30 +15,24 @@ const LOCATION_LOOKUP = {
   "Alicante, Spain": ["Alicante"]
 };
 
-// GSI Practice colors (matching chart)
-const METHODOLOGY_COLORS = {
-  "Modeled":   "#3498DB",
-  "Empirical": "#2ECC71"
-};
-
-const DEFAULT_MARKER_COLOR = "#3498DB";
+const DEFAULT_MARKER_COLOR = "#9B59B6";
 const HIGHLIGHT_MARKER_COLOR = "#F39C12";
 
 /* ---------------------------------------------------
    INIT MAP
 --------------------------------------------------- */
 const map = L.map("map", {
-  center: [30, -40],
+  center: [0, 0],
   zoom: 2,
   zoomControl: true,
   attributionControl: true
 });
 
-// Dark tile layer (CartoDB Dark Matter)
-L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
-  subdomains: "abcd",
-  maxZoom: 19
+// DB Positron (CartoDB Dark Matter)
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '© OpenStreetMap © CartoDB',
+    subdomains: 'abcd',
+    maxZoom: 19
 }).addTo(map);
 
 /* ---------------------------------------------------
@@ -56,8 +50,8 @@ function makeMarkerIcon(color, highlighted = false) {
       height:${size}px;
       background:${color};
       border-radius:50%;
-      border:2px solid rgba(255,255,255,${highlighted ? 0.9 : 0.4});
-      box-shadow: 0 0 ${highlighted ? 10 : 4}px ${color};
+      border:2px solid rgba(0,0,0,${highlighted ? 0.9 : 0.4});
+      box-shadow: none;
       transition: all 0.2s;
     "></div>`,
     iconSize: [size, size],
@@ -75,7 +69,7 @@ fetch("data/gsi_literature_locations.json")
 
       const props = feature.properties;
       const [lng, lat] = feature.geometry.coordinates;
-      const color = METHODOLOGY_COLORS[props.METHODOLOGY] || DEFAULT_MARKER_COLOR;
+      const color = DEFAULT_MARKER_COLOR;
 
       const marker = L.marker([lat, lng], {
         icon: makeMarkerIcon(color)
@@ -97,15 +91,17 @@ fetch("data/gsi_literature_locations.json")
         props.WATER_QUALITY       ? "Water Quality" : null
       ].filter(Boolean);
 
-      const popupHtml = `
-        <strong>${props.CITATION}</strong>
-        <div class="popup-meta">
-          📍 ${props.CITY ? props.CITY + ", " : ""}${props.COUNTRY || ""}<br/>
-          🔬 ${props.METHODOLOGY || "—"}<br/>
-          ${gsiPractices.length ? "🌿 " + gsiPractices.join(", ") + "<br/>" : ""}
-          ${results.length ? "📊 " + results.join(", ") : ""}
-        </div>
-      `;
+const popupHtml = `
+  <strong>${props.CITATION}</strong>
+  <div style="font-size:0.8rem; font-style:italic; color:var(--text-secondary); margin-bottom:6px;">${props.TITLE}</div>
+  <div class="popup-meta">
+    <span style="color:#9B59B6">Location:</span> ${props.CITY ? props.CITY + ", " : ""}${props.COUNTRY || ""}<br/>
+    <span style="color:#E74C3C">Methodology:</span> ${props.METHODOLOGY || "—"}<br/>
+    <span style="color:#2ECC71">GSI Practice:</span> ${gsiPractices.join(", ")}<br/>
+    <span style="color:#3498DB">Results:</span> ${results.join(", ")}<br/>
+    ${props.DOI ? `<br/><span style="color:var(--text-secondary)">DOI:</span> <a href="https://doi.org/${props.DOI.trim()}" target="_blank" style="color:var(--accent); font-size:0.8rem;">${props.DOI.trim()}</a>` : ""}
+  </div>
+`;
 
       marker.bindPopup(popupHtml, { maxWidth: 260 });
 

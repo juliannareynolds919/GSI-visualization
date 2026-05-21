@@ -25,7 +25,7 @@ const ROTATION_RADIANS = ROTATION_DEGREES * Math.PI / 180;
 const GLOBAL_ROTATION = Math.PI / 2 + ROTATION_RADIANS;
 
 const groupColors = ["#F39C12", "#E74C3C", "#9B59B6", "#2ECC71", "#3498DB"];
-const colornone = "#444";
+const colornone = "#ccc";
 
 // Shared state for chart-map linking
 window.gsiChart = {
@@ -83,7 +83,7 @@ function reversePaperOrder(root) {
 /* ---------------------------------------------------
    LOAD DATA & BUILD CHART
 --------------------------------------------------- */
-fetch("https://raw.githubusercontent.com/juliannareynolds919/GSI-visualization/refs/heads/main/gsi-data.json")
+fetch("data/gsi-data.json")
   .then(res => res.json())
   .then(data => {
 
@@ -281,7 +281,7 @@ fetch("https://raw.githubusercontent.com/juliannareynolds919/GSI-visualization/r
       .attr("y", 0)
       .attr("dy", "0.35em")
       .attr("font-size", "12px")
-      .attr("fill", "#aaa")
+      .attr("fill", "#888888")
       .text(d => d.label);
 
     document.getElementById("chart").appendChild(svg.node());

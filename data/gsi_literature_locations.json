@@ -1,1 +1,638 @@
-{"type":"FeatureCollection","crs":{"type":"name","properties":{"name":"EPSG:4326"}},"features":[{"type":"Feature","id":1,"geometry":{"type":"Point","coordinates":[-98.7211756999999,20.0458184]},"properties":{"FID":1,"CITATION":"Bigurra-Alzati et al. 2019","DOI":"10.3390/w13010045","AUTHOR":"Bigurra-Alzati, C. A., Ortiz-Gómez, R., Vázquez-Rodríguez, G. A., López-León, L. D., & Lizárraga-Mendiola, L.","TITLE":"Water conservation and green infrastructure adaptations to reduce water scarcity for residential areas with semi-arid climate: Mineral de la reforma, Mexico","LOCATION":"Hidalgo","METHODOLOGY":"Modeled","COUNTRY":"Mexico","CITY":"Mineral de la Reforma","STORAGE":null,"WATER_QUALITY":null,"INFILTRATION_VOLUME":null,"NOTES":null,"RETENTION_BASIN":"YES","RAINWATER_HARVESTING":"YES","PERMEABLE_PAVEMENT":null,"GREEN_ROOFS":null,"PEAK_FLOW":null,"RUNOFF_VOLUME":"YES","Field":null}},{"type":"Feature","id":2,"geometry":{"type":"Point","coordinates":[-111.9209345,40.7769195000001]},"properties":{"FID":2,"CITATION":"Feng et al. 2016","DOI":"10.1016/j.jhydrol.2016.09.044","AUTHOR":"Feng, Y., Burian, S., & Pomeroy, C.","TITLE":"Potential of green infrastructure to restore predevelopment water budget of a semi-arid urban catchment","LOCATION":"Utah","METHODOLOGY":"Modeled","COUNTRY":"USA","CITY":"Salt Lake Ciry","STORAGE":"YES","WATER_QUALITY":null,"INFILTRATION_VOLUME":"YES","NOTES":null,"RETENTION_BASIN":"YES","RAINWATER_HARVESTING":null,"PERMEABLE_PAVEMENT":null,"GREEN_ROOFS":"YES","PEAK_FLOW":null,"RUNOFF_VOLUME":"YES","Field":null}},{"type":"Feature","id":3,"geometry":{"type":"Point","coordinates":[-110.310248,31.5608265000001]},"properties":{"FID":3,"CITATION":"Korgaonkar et al. 2018","DOI":" 10.3389/fbuil.2018.00058","AUTHOR":"Korgaonkar, Y., Guertin, D. P., Goodrich, D. C., Unkrich, C., Kepner, W. G., & Burns, I. S.","TITLE":"Modeling urban hydrology and green infrastructure using the AGWA urban tool and the KINEROS2 model","LOCATION":"Arizona","METHODOLOGY":"Modeled","COUNTRY":"USA","CITY":"Sierra Vista","STORAGE":"YES","WATER_QUALITY":null,"INFILTRATION_VOLUME":"YES","NOTES":null,"RETENTION_BASIN":"YES","RAINWATER_HARVESTING":"YES","PERMEABLE_PAVEMENT":"YES","GREEN_ROOFS":null,"PEAK_FLOW":"YES","RUNOFF_VOLUME":"YES","Field":null}},{"type":"Feature","id":4,"geometry":{"type":"Point","coordinates":[-106.671984,35.0823726]},"properties":{"FID":4,"CITATION":"Steffen et al. 2013","DOI":"10.1111/jawr.12038","AUTHOR":"Steffen, J., Jensen, M., Pomeroy, C. A, & Burian, S. J.","TITLE":"Water supply and stormwater management benefits of residential rainwater harvesting in U.S. cities","LOCATION":"New Mexico","METHODOLOGY":"Modeled","COUNTRY":"USA","CITY":"Albuquerque","STORAGE":"YES","WATER_QUALITY":null,"INFILTRATION_VOLUME":null,"NOTES":null,"RETENTION_BASIN":null,"RAINWATER_HARVESTING":"YES","PERMEABLE_PAVEMENT":null,"GREEN_ROOFS":null,"PEAK_FLOW":null,"RUNOFF_VOLUME":"YES","Field":null}},{"type":"Feature","id":5,"geometry":{"type":"Point","coordinates":[-112.124793,33.6043255000001]},"properties":{"FID":5,"CITATION":"Steffen et al. 2013","DOI":"10.1111/jawr.12038","AUTHOR":"Steffen, J., Jensen, M., Pomeroy, C. A, & Burian, S. J.","TITLE":"Water supply and stormwater management benefits of residential rainwater harvesting in U.S. cities","LOCATION":"Arizona","METHODOLOGY":"Modeled","COUNTRY":"USA","CITY":"Phoenix","STORAGE":"YES","WATER_QUALITY":null,"INFILTRATION_VOLUME":null,"NOTES":null,"RETENTION_BASIN":null,"RAINWATER_HARVESTING":"YES","PERMEABLE_PAVEMENT":null,"GREEN_ROOFS":null,"PEAK_FLOW":null,"RUNOFF_VOLUME":"YES","Field":null}},{"type":"Feature","id":6,"geometry":{"type":"Point","coordinates":[-115.175,36.125]},"properties":{"FID":6,"CITATION":"Steffen et al. 2013","DOI":"10.1111/jawr.12038","AUTHOR":"Steffen, J., Jensen, M., Pomeroy, C. A, & Burian, S. J.","TITLE":"Water supply and stormwater management benefits of residential rainwater harvesting in U.S. cities","LOCATION":"Nevada","METHODOLOGY":"Modeled","COUNTRY":"USA","CITY":"Las Vegas","STORAGE":"YES","WATER_QUALITY":null,"INFILTRATION_VOLUME":null,"NOTES":null,"RETENTION_BASIN":null,"RAINWATER_HARVESTING":"YES","PERMEABLE_PAVEMENT":null,"GREEN_ROOFS":null,"PEAK_FLOW":null,"RUNOFF_VOLUME":"YES","Field":null}},{"type":"Feature","id":8,"geometry":{"type":"Point","coordinates":[-115.175,36.125]},"properties":{"FID":8,"CITATION":"Korgaonkar et al. 2021","DOI":"10.3390/ijgi10070443","AUTHOR":"Korgaonkar, Y., Guertin, D. P., Meixner, T., & Goodrich, D. C.","TITLE":"Hydrological modeling of green infrastructure to quantify its effect on flood mitigation and water availability in the high school watershed in Tucson, AZ","LOCATION":"Arizona","METHODOLOGY":"Modeled","COUNTRY":"USA","CITY":"Tuscon","STORAGE":"YES","WATER_QUALITY":null,"INFILTRATION_VOLUME":null,"NOTES":null,"RETENTION_BASIN":"YES","RAINWATER_HARVESTING":"YES","PERMEABLE_PAVEMENT":null,"GREEN_ROOFS":null,"PEAK_FLOW":null,"RUNOFF_VOLUME":"YES","Field":null}},{"type":"Feature","id":9,"geometry":{"type":"Point","coordinates":[-118.4117326,34.0204789000001]},"properties":{"FID":9,"CITATION":"Read et al. 2019","DOI":"10.1061/(asce)wr.1943-5452.0001092","AUTHOR":"Read, L. K., Hogue, T. S., Edgley, R., Mika, K., & Gold, M.","TITLE":"Evaluating the impacts of stormwater management on streamflow regimes in the Los Angeles River","LOCATION":"California","METHODOLOGY":"Modeled","COUNTRY":"USA","CITY":null,"STORAGE":null,"WATER_QUALITY":"YES","INFILTRATION_VOLUME":null,"NOTES":null,"RETENTION_BASIN":"YES","RAINWATER_HARVESTING":null,"PERMEABLE_PAVEMENT":"YES","GREEN_ROOFS":null,"PEAK_FLOW":"YES","RUNOFF_VOLUME":"YES","Field":null}},{"type":"Feature","id":10,"geometry":{"type":"Point","coordinates":[-110.310248,31.5608265000001]},"properties":{"FID":10,"CITATION":"Shipek et al. 2015","DOI":" ","AUTHOR":"Shipek, C., Sikdar, B., Jones, C., Murphy, M. & Miller, C.","TITLE":"A stormwater action plan for Sierra Vista","LOCATION":"Arizona","METHODOLOGY":"Modeled","COUNTRY":"USA","CITY":"Sierra Vista","STORAGE":null,"WATER_QUALITY":null,"INFILTRATION_VOLUME":null,"NOTES":"https://wmg.i.civicrm.ca/document","RETENTION_BASIN":"YES","RAINWATER_HARVESTING":"YES","PERMEABLE_PAVEMENT":null,"GREEN_ROOFS":null,"PEAK_FLOW":null,"RUNOFF_VOLUME":"YES","Field":null}},{"type":"Feature","id":11,"geometry":{"type":"Point","coordinates":[68.2071408,27.5529617]},"properties":{"FID":11,"CITATION":"Ali et al. 2020","DOI":"10.1016/j.jclepro.2020.120829","AUTHOR":"Ali, S., Zhang, S., Yue, T.","TITLE":"Environmental and economic assessment of rainwater harvesting systems under five climatic conditions of Pakistan","LOCATION":null,"METHODOLOGY":"Modeled","COUNTRY":"Pakistan","CITY":"Larkana","STORAGE":null,"WATER_QUALITY":null,"INFILTRATION_VOLUME":null,"NOTES":null,"RETENTION_BASIN":null,"RAINWATER_HARVESTING":"YES","PERMEABLE_PAVEMENT":null,"GREEN_ROOFS":null,"PEAK_FLOW":null,"RUNOFF_VOLUME":"YES","Field":null}},{"type":"Feature","id":16,"geometry":{"type":"Point","coordinates":[13.3498704,38.1048263000001]},"properties":{"FID":16,"CITATION":"Pumo et al. 2023","DOI":"10.1016/j.jenvman.2022.116643","AUTHOR":"Pumo, D., Francipane, A., Alongi, F., & Noto, L. V.","TITLE":"The potential of multilayer green roofs for stormwater management in urban area under semi-arid Mediterranean climate conditions","LOCATION":"Sicily","METHODOLOGY":"Empirical","COUNTRY":"Italy","CITY":"Palermo","STORAGE":"YES","WATER_QUALITY":null,"INFILTRATION_VOLUME":null,"NOTES":null,"RETENTION_BASIN":null,"RAINWATER_HARVESTING":null,"PERMEABLE_PAVEMENT":null,"GREEN_ROOFS":"YES","PEAK_FLOW":null,"RUNOFF_VOLUME":"YES","Field":null}},{"type":"Feature","id":17,"geometry":{"type":"Point","coordinates":[-118.2990476,33.7866710000001]},"properties":{"FID":17,"CITATION":"Prose et al. 2019","DOI":"10.1007/s11269-018-2134-y","AUTHOR":"Porse, E., & Pincetl, S.","TITLE":"Effects of stormwater capture and use on urban streamflows","LOCATION":"California","METHODOLOGY":"Modeled","COUNTRY":"USA","CITY":null,"STORAGE":null,"WATER_QUALITY":null,"INFILTRATION_VOLUME":null,"NOTES":null,"RETENTION_BASIN":"YES","RAINWATER_HARVESTING":null,"PERMEABLE_PAVEMENT":null,"GREEN_ROOFS":null,"PEAK_FLOW":null,"RUNOFF_VOLUME":"YES","Field":null}},{"type":"Feature","id":31,"geometry":{"type":"Point","coordinates":[-118.401997316686,34.0229995156082]},"properties":{"FID":31,"CITATION":"Barich 2014","DOI":"10.15368/theses.2014.58","AUTHOR":"Barich, J.","TITLE":"Sensitivity to stormwater management solutions to spatial scale","LOCATION":"California","METHODOLOGY":"Modeled","COUNTRY":"USA","CITY":"Los Angeles","STORAGE":null,"WATER_QUALITY":null,"INFILTRATION_VOLUME":null,"NOTES":null,"RETENTION_BASIN":"YES","RAINWATER_HARVESTING":null,"PERMEABLE_PAVEMENT":null,"GREEN_ROOFS":null,"PEAK_FLOW":null,"RUNOFF_VOLUME":"YES","Field":null}},{"type":"Feature","id":32,"geometry":{"type":"Point","coordinates":[-0.482670646596668,38.3451939452167]},"properties":{"FID":32,"CITATION":"Hernández-Hernández et al. 2020","DOI":"10.3390/w12092616","AUTHOR":"Hernández-Hernández, M., Olcina, J., & Morote, Á. F.","TITLE":"Urban stormwater management, a tool for adapting to climate change: From risk to resource","LOCATION":"Alicante","METHODOLOGY":"Empirical","COUNTRY":"Spain","CITY":"Alicante","STORAGE":"YES","WATER_QUALITY":"YES","INFILTRATION_VOLUME":null,"NOTES":null,"RETENTION_BASIN":"YES","RAINWATER_HARVESTING":null,"PERMEABLE_PAVEMENT":null,"GREEN_ROOFS":null,"PEAK_FLOW":null,"RUNOFF_VOLUME":null,"Field":null}},{"type":"Feature","id":33,"geometry":{"type":"Point","coordinates":[-112.073034721013,33.4487470339623]},"properties":{"FID":33,"CITATION":"McPhillips et al. 2019","DOI":"10.1029/2019WR025835","AUTHOR":"McPhillips, L. E., Earl, S. R., Hale, R. L., & Grimm, N. B. ","TITLE":"Urbanization in arid Central Arizona Watershed results in decreased stream flashiness","LOCATION":"Arizona","METHODOLOGY":"Empirical","COUNTRY":"USA","CITY":"Phoenix","STORAGE":null,"WATER_QUALITY":null,"INFILTRATION_VOLUME":null,"NOTES":null,"RETENTION_BASIN":"YES","RAINWATER_HARVESTING":null,"PERMEABLE_PAVEMENT":null,"GREEN_ROOFS":null,"PEAK_FLOW":"YES","RUNOFF_VOLUME":null,"Field":null}},{"type":"Feature","id":34,"geometry":{"type":"Point","coordinates":[-117.837057013313,33.6436313781843]},"properties":{"FID":34,"CITATION":"Parker et al. 2021","DOI":"10.1021/acsestwater.1c00173","AUTHOR":"Parker, E. A., Grant, S. B., Sahin, A., Vrugt, J. A., & Brand, M. W.","TITLE":"Can stormwater systems outsmart the weather? Stormwater capture with real-time control in Southern California","LOCATION":"California","METHODOLOGY":"Modeled","COUNTRY":"USA","CITY":"Irvine","STORAGE":"YES","WATER_QUALITY":null,"INFILTRATION_VOLUME":null,"NOTES":null,"RETENTION_BASIN":null,"RAINWATER_HARVESTING":"YES","PERMEABLE_PAVEMENT":null,"GREEN_ROOFS":null,"PEAK_FLOW":null,"RUNOFF_VOLUME":"YES","Field":null}},{"type":"Feature","id":36,"geometry":{"type":"Point","coordinates":[-112.077374182113,33.4526690019955]},"properties":{"FID":36,"CITATION":"Tosline et al. 2022","DOI":null,"AUTHOR":"Tosline, D., Nettis, A., Bearup, L., McCauley, L., Meerow, S., & Milsen, C.","TITLE":"Identifying key areas in the city of Phoenix for infiltration and retention using low impact development","LOCATION":"Arizona","METHODOLOGY":"Modeled","COUNTRY":"USA","CITY":"Phoenix","STORAGE":null,"WATER_QUALITY":"YES","INFILTRATION_VOLUME":"YES","NOTES":"https://www.phoenix.gov/administration/departments/pdd/residential-building/resident-plan-reviews/green-stormwater-infrastructure.html","RETENTION_BASIN":"YES","RAINWATER_HARVESTING":"YES","PERMEABLE_PAVEMENT":"YES","GREEN_ROOFS":null,"PEAK_FLOW":"YES","RUNOFF_VOLUME":null,"Field":null}},{"type":"Feature","id":38,"geometry":{"type":"Point","coordinates":[-111.893045997949,40.7569458990141]},"properties":{"FID":38,"CITATION":"York et al. 2015","DOI":"10.3844/ajessp.2015.278.292","AUTHOR":"York, C., Goharian, E., & Burian, S. J.","TITLE":"Impacts of large-scale stormwater green infrastructure implementation and climate variability on receiving water response in the Salt Lake City area","LOCATION":"Utah","METHODOLOGY":"Modeled","COUNTRY":"USA","CITY":"Salt Lake City","STORAGE":"YES","WATER_QUALITY":null,"INFILTRATION_VOLUME":null,"NOTES":null,"RETENTION_BASIN":"YES","RAINWATER_HARVESTING":"YES","PERMEABLE_PAVEMENT":null,"GREEN_ROOFS":null,"PEAK_FLOW":null,"RUNOFF_VOLUME":"YES","Field":null}},{"type":"Feature","id":41,"geometry":{"type":"Point","coordinates":[-111.941099266625,33.4248363787325]},"properties":{"FID":41,"CITATION":"Holzmeister 2016","DOI":null,"AUTHOR":"Holzmeister, J.","TITLE":"Tempe area drainage master study","LOCATION":"Arizona","METHODOLOGY":"Modeled","COUNTRY":"USA","CITY":"Tempe","STORAGE":"YES","WATER_QUALITY":null,"INFILTRATION_VOLUME":"YES","NOTES":"https://www.maricopa.gov/","RETENTION_BASIN":"YES","RAINWATER_HARVESTING":"YES","PERMEABLE_PAVEMENT":"YES","GREEN_ROOFS":"YES","PEAK_FLOW":"YES","RUNOFF_VOLUME":"YES","Field":null}}]}
+{
+    "type": "FeatureCollection",
+    "crs": {
+        "type": "name",
+        "properties": {
+            "name": "EPSG:4326"
+        }
+    },
+    "features": [
+        {
+            "type": "Feature",
+            "id": 1,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -98.7211756999999,
+                    20.0458184
+                ]
+            },
+            "properties": {
+                "FID": 1,
+                "CITATION": "Bigurra-Alzati et al. 2019",
+                "DOI": "10.3390/w13010045",
+                "AUTHOR": "Bigurra-Alzati, C. A., Ortiz-Gómez, R., Vázquez-Rodríguez, G. A., López-León, L. D., & Lizárraga-Mendiola, L.",
+                "TITLE": "Water conservation and green infrastructure adaptations to reduce water scarcity for residential areas with semi-arid climate: Mineral de la reforma, Mexico",
+                "LOCATION": "Hidalgo",
+                "METHODOLOGY": "Modeled",
+                "COUNTRY": "Mexico",
+                "CITY": "Mineral de la Reforma",
+                "STORAGE": null,
+                "WATER_QUALITY": null,
+                "INFILTRATION_VOLUME": null,
+                "NOTES": null,
+                "RETENTION_BASIN": "YES",
+                "RAINWATER_HARVESTING": "YES",
+                "PERMEABLE_PAVEMENT": null,
+                "GREEN_ROOFS": null,
+                "PEAK_FLOW": null,
+                "RUNOFF_VOLUME": "YES",
+                "Field": null
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 2,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -111.9209345,
+                    40.7769195000001
+                ]
+            },
+            "properties": {
+                "FID": 2,
+                "CITATION": "Feng et al. 2016",
+                "DOI": "10.1016/j.jhydrol.2016.09.044",
+                "AUTHOR": "Feng, Y., Burian, S., & Pomeroy, C.",
+                "TITLE": "Potential of green infrastructure to restore predevelopment water budget of a semi-arid urban catchment",
+                "LOCATION": "Utah",
+                "METHODOLOGY": "Modeled",
+                "COUNTRY": "USA",
+                "CITY": "Salt Lake Cirt",
+                "STORAGE": "YES",
+                "WATER_QUALITY": null,
+                "INFILTRATION_VOLUME": "YES",
+                "NOTES": null,
+                "RETENTION_BASIN": "YES",
+                "RAINWATER_HARVESTING": null,
+                "PERMEABLE_PAVEMENT": null,
+                "GREEN_ROOFS": "YES",
+                "PEAK_FLOW": null,
+                "RUNOFF_VOLUME": "YES",
+                "Field": null
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 3,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -110.276533,
+                    31.503830
+                ]
+            },
+            "properties": {
+                "FID": 3,
+                "CITATION": "Korgaonkar et al. 2018",
+                "DOI": " 10.3389/fbuil.2018.00058",
+                "AUTHOR": "Korgaonkar, Y., Guertin, D. P., Goodrich, D. C., Unkrich, C., Kepner, W. G., & Burns, I. S.",
+                "TITLE": "Modeling urban hydrology and green infrastructure using the AGWA urban tool and the KINEROS2 model",
+                "LOCATION": "Arizona",
+                "METHODOLOGY": "Modeled",
+                "COUNTRY": "USA",
+                "CITY": "Sierra Vista",
+                "STORAGE": "YES",
+                "WATER_QUALITY": null,
+                "INFILTRATION_VOLUME": "YES",
+                "NOTES": null,
+                "RETENTION_BASIN": "YES",
+                "RAINWATER_HARVESTING": "YES",
+                "PERMEABLE_PAVEMENT": "YES",
+                "GREEN_ROOFS": null,
+                "PEAK_FLOW": "YES",
+                "RUNOFF_VOLUME": "YES",
+                "Field": null
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 4,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -106.671984,
+                    35.0823726
+                ]
+            },
+            "properties": {
+                "FID": 4,
+                "CITATION": "Steffen et al. 2013",
+                "DOI": "10.1111/jawr.12038",
+                "AUTHOR": "Steffen, J., Jensen, M., Pomeroy, C. A, & Burian, S. J.",
+                "TITLE": "Water supply and stormwater management benefits of residential rainwater harvesting in U.S. cities",
+                "LOCATION": "New Mexico",
+                "METHODOLOGY": "Modeled",
+                "COUNTRY": "USA",
+                "CITY": "Albuquerque",
+                "STORAGE": "YES",
+                "WATER_QUALITY": null,
+                "INFILTRATION_VOLUME": null,
+                "NOTES": null,
+                "RETENTION_BASIN": null,
+                "RAINWATER_HARVESTING": "YES",
+                "PERMEABLE_PAVEMENT": null,
+                "GREEN_ROOFS": null,
+                "PEAK_FLOW": null,
+                "RUNOFF_VOLUME": "YES",
+                "Field": null
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 5,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -112.124793,
+                    33.6043255000001
+                ]
+            },
+            "properties": {
+                "FID": 5,
+                "CITATION": "Steffen et al. 2013",
+                "DOI": "10.1111/jawr.12038",
+                "AUTHOR": "Steffen, J., Jensen, M., Pomeroy, C. A, & Burian, S. J.",
+                "TITLE": "Water supply and stormwater management benefits of residential rainwater harvesting in U.S. cities",
+                "LOCATION": "Arizona",
+                "METHODOLOGY": "Modeled",
+                "COUNTRY": "USA",
+                "CITY": "Phoenix",
+                "STORAGE": "YES",
+                "WATER_QUALITY": null,
+                "INFILTRATION_VOLUME": null,
+                "NOTES": null,
+                "RETENTION_BASIN": null,
+                "RAINWATER_HARVESTING": "YES",
+                "PERMEABLE_PAVEMENT": null,
+                "GREEN_ROOFS": null,
+                "PEAK_FLOW": null,
+                "RUNOFF_VOLUME": "YES",
+                "Field": null
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 6,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -115.175,
+                    36.125
+                ]
+            },
+            "properties": {
+                "FID": 6,
+                "CITATION": "Steffen et al. 2013",
+                "DOI": "10.1111/jawr.12038",
+                "AUTHOR": "Steffen, J., Jensen, M., Pomeroy, C. A, & Burian, S. J.",
+                "TITLE": "Water supply and stormwater management benefits of residential rainwater harvesting in U.S. cities",
+                "LOCATION": "Nevada",
+                "METHODOLOGY": "Modeled",
+                "COUNTRY": "USA",
+                "CITY": "Las Vegas",
+                "STORAGE": "YES",
+                "WATER_QUALITY": null,
+                "INFILTRATION_VOLUME": null,
+                "NOTES": null,
+                "RETENTION_BASIN": null,
+                "RAINWATER_HARVESTING": "YES",
+                "PERMEABLE_PAVEMENT": null,
+                "GREEN_ROOFS": null,
+                "PEAK_FLOW": null,
+                "RUNOFF_VOLUME": "YES",
+                "Field": null
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 8,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -110.948881,
+                    32.224403
+                ]
+            },
+            "properties": {
+                "FID": 8,
+                "CITATION": "Korgaonkar et al. 2021",
+                "DOI": "10.3390/ijgi10070443",
+                "AUTHOR": "Korgaonkar, Y., Guertin, D. P., Meixner, T., & Goodrich, D. C.",
+                "TITLE": "Hydrological modeling of green infrastructure to quantify its effect on flood mitigation and water availability in the high school watershed in Tucson, AZ",
+                "LOCATION": "Arizona",
+                "METHODOLOGY": "Modeled",
+                "COUNTRY": "USA",
+                "CITY": "Tucson",
+                "STORAGE": "YES",
+                "WATER_QUALITY": null,
+                "INFILTRATION_VOLUME": null,
+                "NOTES": null,
+                "RETENTION_BASIN": "YES",
+                "RAINWATER_HARVESTING": "YES",
+                "PERMEABLE_PAVEMENT": null,
+                "GREEN_ROOFS": null,
+                "PEAK_FLOW": null,
+                "RUNOFF_VOLUME": "YES",
+                "Field": null
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 9,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -118.4117326,
+                    34.0204789000001
+                ]
+            },
+            "properties": {
+                "FID": 9,
+                "CITATION": "Read et al. 2019",
+                "DOI": "10.1061/(asce)wr.1943-5452.0001092",
+                "AUTHOR": "Read, L. K., Hogue, T. S., Edgley, R., Mika, K., & Gold, M.",
+                "TITLE": "Evaluating the impacts of stormwater management on streamflow regimes in the Los Angeles River",
+                "LOCATION": "California",
+                "METHODOLOGY": "Modeled",
+                "COUNTRY": "USA",
+                "CITY": null,
+                "STORAGE": null,
+                "WATER_QUALITY": "YES",
+                "INFILTRATION_VOLUME": null,
+                "NOTES": null,
+                "RETENTION_BASIN": "YES",
+                "RAINWATER_HARVESTING": null,
+                "PERMEABLE_PAVEMENT": "YES",
+                "GREEN_ROOFS": null,
+                "PEAK_FLOW": "YES",
+                "RUNOFF_VOLUME": "YES",
+                "Field": null
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 10,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -110.310248,
+                    31.5608265000001
+                ]
+            },
+            "properties": {
+                "FID": 10,
+                "CITATION": "Shipek et al. 2015",
+                "DOI": " ",
+                "AUTHOR": "Shipek, C., Sikdar, B., Jones, C., Murphy, M. & Miller, C.",
+                "TITLE": "A stormwater action plan for Sierra Vista",
+                "LOCATION": "Arizona",
+                "METHODOLOGY": "Modeled",
+                "COUNTRY": "USA",
+                "CITY": "Sierra Vista",
+                "STORAGE": null,
+                "WATER_QUALITY": null,
+                "INFILTRATION_VOLUME": null,
+                "NOTES": "https://wmg.i.civicrm.ca/document",
+                "RETENTION_BASIN": "YES",
+                "RAINWATER_HARVESTING": "YES",
+                "PERMEABLE_PAVEMENT": null,
+                "GREEN_ROOFS": null,
+                "PEAK_FLOW": null,
+                "RUNOFF_VOLUME": "YES",
+                "Field": null
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 11,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    68.2071408,
+                    27.5529617
+                ]
+            },
+            "properties": {
+                "FID": 11,
+                "CITATION": "Ali et al. 2020",
+                "DOI": "10.1016/j.jclepro.2020.120829",
+                "AUTHOR": "Ali, S., Zhang, S., Yue, T.",
+                "TITLE": "Environmental and economic assessment of rainwater harvesting systems under five climatic conditions of Pakistan",
+                "LOCATION": "Sindh",
+                "METHODOLOGY": "Modeled",
+                "COUNTRY": "Pakistan",
+                "CITY": "Larkana",
+                "STORAGE": null,
+                "WATER_QUALITY": null,
+                "INFILTRATION_VOLUME": null,
+                "NOTES": null,
+                "RETENTION_BASIN": null,
+                "RAINWATER_HARVESTING": "YES",
+                "PERMEABLE_PAVEMENT": null,
+                "GREEN_ROOFS": null,
+                "PEAK_FLOW": null,
+                "RUNOFF_VOLUME": "YES",
+                "Field": null
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 16,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    13.3498704,
+                    38.1048263000001
+                ]
+            },
+            "properties": {
+                "FID": 16,
+                "CITATION": "Pumo et al. 2023",
+                "DOI": "10.1016/j.jenvman.2022.116643",
+                "AUTHOR": "Pumo, D., Francipane, A., Alongi, F., & Noto, L. V.",
+                "TITLE": "The potential of multilayer green roofs for stormwater management in urban area under semi-arid Mediterranean climate conditions",
+                "LOCATION": "Sicily",
+                "METHODOLOGY": "Empirical",
+                "COUNTRY": "Italy",
+                "CITY": "Palermo",
+                "STORAGE": "YES",
+                "WATER_QUALITY": null,
+                "INFILTRATION_VOLUME": null,
+                "NOTES": null,
+                "RETENTION_BASIN": null,
+                "RAINWATER_HARVESTING": null,
+                "PERMEABLE_PAVEMENT": null,
+                "GREEN_ROOFS": "YES",
+                "PEAK_FLOW": null,
+                "RUNOFF_VOLUME": "YES",
+                "Field": null
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 17,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -118.2990476,
+                    33.7866710000001
+                ]
+            },
+            "properties": {
+                "FID": 17,
+                "CITATION": "Porse et al. 2019",
+                "DOI": "10.1007/s11269-018-2134-y",
+                "AUTHOR": "Porse, E., & Pincetl, S.",
+                "TITLE": "Effects of stormwater capture and use on urban streamflows",
+                "LOCATION": "California",
+                "METHODOLOGY": "Modeled",
+                "COUNTRY": "USA",
+                "CITY": null,
+                "STORAGE": null,
+                "WATER_QUALITY": null,
+                "INFILTRATION_VOLUME": null,
+                "NOTES": null,
+                "RETENTION_BASIN": "YES",
+                "RAINWATER_HARVESTING": null,
+                "PERMEABLE_PAVEMENT": null,
+                "GREEN_ROOFS": null,
+                "PEAK_FLOW": null,
+                "RUNOFF_VOLUME": "YES",
+                "Field": null
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 31,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -118.401997316686,
+                    34.0229995156082
+                ]
+            },
+            "properties": {
+                "FID": 31,
+                "CITATION": "Barich 2014",
+                "DOI": "10.15368/theses.2014.58",
+                "AUTHOR": "Barich, J.",
+                "TITLE": "Sensitivity to stormwater management solutions to spatial scale",
+                "LOCATION": "California",
+                "METHODOLOGY": "Modeled",
+                "COUNTRY": "USA",
+                "CITY": "Los Angeles",
+                "STORAGE": null,
+                "WATER_QUALITY": null,
+                "INFILTRATION_VOLUME": null,
+                "NOTES": null,
+                "RETENTION_BASIN": "YES",
+                "RAINWATER_HARVESTING": null,
+                "PERMEABLE_PAVEMENT": null,
+                "GREEN_ROOFS": null,
+                "PEAK_FLOW": null,
+                "RUNOFF_VOLUME": "YES",
+                "Field": null
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 32,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -0.482670646596668,
+                    38.3451939452167
+                ]
+            },
+            "properties": {
+                "FID": 32,
+                "CITATION": "Hernández-Hernández et al. 2020",
+                "DOI": "10.3390/w12092616",
+                "AUTHOR": "Hernández-Hernández, M., Olcina, J., & Morote, Á. F.",
+                "TITLE": "Urban stormwater management, a tool for adapting to climate change: From risk to resource",
+                "LOCATION": "Alicante",
+                "METHODOLOGY": "Empirical",
+                "COUNTRY": "Spain",
+                "CITY": "Alicante",
+                "STORAGE": "YES",
+                "WATER_QUALITY": "YES",
+                "INFILTRATION_VOLUME": null,
+                "NOTES": null,
+                "RETENTION_BASIN": "YES",
+                "RAINWATER_HARVESTING": null,
+                "PERMEABLE_PAVEMENT": null,
+                "GREEN_ROOFS": null,
+                "PEAK_FLOW": null,
+                "RUNOFF_VOLUME": null,
+                "Field": null
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 33,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -112.073034721013,
+                    33.4487470339623
+                ]
+            },
+            "properties": {
+                "FID": 33,
+                "CITATION": "McPhillips et al. 2019",
+                "DOI": "10.1029/2019WR025835",
+                "AUTHOR": "McPhillips, L. E., Earl, S. R., Hale, R. L., & Grimm, N. B. ",
+                "TITLE": "Urbanization in arid Central Arizona Watershed results in decreased stream flashiness",
+                "LOCATION": "Arizona",
+                "METHODOLOGY": "Empirical",
+                "COUNTRY": "USA",
+                "CITY": "Phoenix",
+                "STORAGE": null,
+                "WATER_QUALITY": null,
+                "INFILTRATION_VOLUME": null,
+                "NOTES": null,
+                "RETENTION_BASIN": "YES",
+                "RAINWATER_HARVESTING": null,
+                "PERMEABLE_PAVEMENT": null,
+                "GREEN_ROOFS": null,
+                "PEAK_FLOW": "YES",
+                "RUNOFF_VOLUME": null,
+                "Field": null
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 34,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -117.837057013313,
+                    33.6436313781843
+                ]
+            },
+            "properties": {
+                "FID": 34,
+                "CITATION": "Parker et al. 2021",
+                "DOI": "10.1021/acsestwater.1c00173",
+                "AUTHOR": "Parker, E. A., Grant, S. B., Sahin, A., Vrugt, J. A., & Brand, M. W.",
+                "TITLE": "Can stormwater systems outsmart the weather? Stormwater capture with real-time control in Southern California",
+                "LOCATION": "California",
+                "METHODOLOGY": "Modeled",
+                "COUNTRY": "USA",
+                "CITY": "Irvine",
+                "STORAGE": "YES",
+                "WATER_QUALITY": null,
+                "INFILTRATION_VOLUME": null,
+                "NOTES": null,
+                "RETENTION_BASIN": null,
+                "RAINWATER_HARVESTING": "YES",
+                "PERMEABLE_PAVEMENT": null,
+                "GREEN_ROOFS": null,
+                "PEAK_FLOW": null,
+                "RUNOFF_VOLUME": "YES",
+                "Field": null
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 36,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -112.077374182113,
+                    33.4526690019955
+                ]
+            },
+            "properties": {
+                "FID": 36,
+                "CITATION": "Tosline et al. 2022",
+                "DOI": null,
+                "AUTHOR": "Tosline, D., Nettis, A., Bearup, L., McCauley, L., Meerow, S., & Milsen, C.",
+                "TITLE": "Identifying key areas in the city of Phoenix for infiltration and retention using low impact development",
+                "LOCATION": "Arizona",
+                "METHODOLOGY": "Modeled",
+                "COUNTRY": "USA",
+                "CITY": "Phoenix",
+                "STORAGE": null,
+                "WATER_QUALITY": "YES",
+                "INFILTRATION_VOLUME": "YES",
+                "NOTES": "https://www.phoenix.gov/administration/departments/pdd/residential-building/resident-plan-reviews/green-stormwater-infrastructure.html",
+                "RETENTION_BASIN": "YES",
+                "RAINWATER_HARVESTING": "YES",
+                "PERMEABLE_PAVEMENT": "YES",
+                "GREEN_ROOFS": null,
+                "PEAK_FLOW": "YES",
+                "RUNOFF_VOLUME": null,
+                "Field": null
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 38,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -111.893045997949,
+                    40.7569458990141
+                ]
+            },
+            "properties": {
+                "FID": 38,
+                "CITATION": "York et al. 2015",
+                "DOI": "10.3844/ajessp.2015.278.292",
+                "AUTHOR": "York, C., Goharian, E., & Burian, S. J.",
+                "TITLE": "Impacts of large-scale stormwater green infrastructure implementation and climate variability on receiving water response in the Salt Lake City area",
+                "LOCATION": "Utah",
+                "METHODOLOGY": "Modeled",
+                "COUNTRY": "USA",
+                "CITY": "Salt Lake City",
+                "STORAGE": "YES",
+                "WATER_QUALITY": null,
+                "INFILTRATION_VOLUME": null,
+                "NOTES": null,
+                "RETENTION_BASIN": "YES",
+                "RAINWATER_HARVESTING": "YES",
+                "PERMEABLE_PAVEMENT": null,
+                "GREEN_ROOFS": null,
+                "PEAK_FLOW": null,
+                "RUNOFF_VOLUME": "YES",
+                "Field": null
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 41,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -111.941099266625,
+                    33.4248363787325
+                ]
+            },
+            "properties": {
+                "FID": 41,
+                "CITATION": "Holzmeister 2016",
+                "DOI": null,
+                "AUTHOR": "Holzmeister, J.",
+                "TITLE": "Tempe area drainage master study",
+                "LOCATION": "Arizona",
+                "METHODOLOGY": "Modeled",
+                "COUNTRY": "USA",
+                "CITY": "Tempe",
+                "STORAGE": "YES",
+                "WATER_QUALITY": null,
+                "INFILTRATION_VOLUME": "YES",
+                "NOTES": "https://www.maricopa.gov/",
+                "RETENTION_BASIN": "YES",
+                "RAINWATER_HARVESTING": "YES",
+                "PERMEABLE_PAVEMENT": "YES",
+                "GREEN_ROOFS": "YES",
+                "PEAK_FLOW": "YES",
+                "RUNOFF_VOLUME": "YES",
+                "Field": null
+            }
+        }
+    ]
+}
