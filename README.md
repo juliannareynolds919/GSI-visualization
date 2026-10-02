@@ -22,6 +22,8 @@ Then open <http://localhost:8000>.
 
 ## Files
 
+- `index.html`: page layout and About box
+- `css/style.css`: styles
 - `js/chart.js`: D3.js hierarchical edge bundling diagram, adapted from the [Observable example](https://observablehq.com/@d3/hierarchical-edge-bundling)
 - `js/map.js`: Leaflet map and chart–map linking
 - `data/gsi-data.json`: diagram nodes and links
